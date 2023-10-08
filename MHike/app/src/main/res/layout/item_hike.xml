@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    tools:context=".Feed">
+
+    <!-- Background image -->
+    <ImageView
+        android:id="@+id/imageViewBackground"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:background="@drawable/default_image_background" />
+
+    <!-- TextView to display the hike name -->
+    <TextView
+        android:id="@+id/textViewHikeTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewBackground"
+        tools:text="Hike Name" />
+
+    <!-- TextView to display the hike location -->
+    <TextView
+        android:id="@+id/textViewHikeLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHikeTitle"
+        tools:text="Hike Location" />
+
+    <TextView
+        android:id="@+id/textViewHikeDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHikeLocation"
+        tools:text="Hike Date" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHikeDate">
+
+        <!-- TextView to display Parking status -->
+        <TextView
+            android:id="@+id/textViewHikeParkingStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            tools:text="Parking status" />
+
+        <!-- TextView to display Hike Length -->
+        <TextView
+            android:id="@+id/textViewHikeLength"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            tools:text="Hike Length" />
+
+        <!-- TextView to display Difficulty -->
+        <TextView
+            android:id="@+id/textViewHikeDifficulty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            tools:text="Difficulty" />
+    </LinearLayout>
+
+    <!-- Add other TextViews to display hike information such as date, parking available, length, difficulty, and description -->
+
+    <!-- TextView to label the observations section -->
+
+    <!-- Nested RecyclerView to display the list of observations -->
+
+    <TextView
+        android:id="@+id/textViewHikeDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:text="Description" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewObservations"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewObservationsLabel"
+        tools:listitem="@layout/list_item_observation" />
+
+    <TextView
+        android:id="@+id/textViewObservationsLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Observations:"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHikeDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

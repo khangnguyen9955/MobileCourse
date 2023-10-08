@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    android:background="@drawable/rounded_background"
+    >
+
+    <!-- Image Container -->
+    <ImageView
+        android:id="@+id/imageViewBackground"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/default_image_background" />
+
+    <!-- General Information Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/white">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textViewHikeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hike Title"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <!-- Location (smaller text with gray color) -->
+        <TextView
+            android:id="@+id/textViewHikeLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <!-- Date, Length, Difficulty -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Date -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewHikeDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Our Value for Date"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Length -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Length"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewHikeLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Our Value for Length"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Difficulty -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Difficulty"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewHikeDifficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Our Value for Difficulty"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
