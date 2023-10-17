@@ -1,0 +1,36 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Observation Name -->
+    <TextView
+        android:id="@+id/textObservationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observation Name"
+        android:textSize="18sp"
+        android:textColor="@color/black" />
+
+    <!-- Observation Date -->
+    <TextView
+        android:id="@+id/textObservationDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observation Date"
+        android:textSize="16sp"
+        android:textColor="@color/gray" />
+
+    <!-- Observation Comments -->
+    <TextView
+        android:id="@+id/textObservationComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observation Comments"
+        android:textSize="16sp"
+        android:textColor="@color/gray" />
+
+</LinearLayout>

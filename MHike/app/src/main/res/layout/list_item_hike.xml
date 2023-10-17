@@ -30,19 +30,21 @@
             android:layout_height="wrap_content"
             android:text="Hike Title"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <!-- Location (smaller text with gray color) -->
+
+        <!-- Date, Length, Difficulty -->
         <TextView
             android:id="@+id/textViewHikeLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Location"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:textStyle="bold|italic" />
 
-        <!-- Date, Length, Difficulty -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +69,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Our Value for Date"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="normal"/>
+
             </LinearLayout>
 
             <!-- Length -->
@@ -89,7 +93,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Our Value for Length"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="normal"/>
             </LinearLayout>
 
             <!-- Difficulty -->
@@ -111,7 +116,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Our Value for Difficulty"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="normal"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
