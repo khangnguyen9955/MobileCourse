@@ -27,7 +27,7 @@ public class Feed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
-
+        setTitle("Feed");
         recyclerView = findViewById(R.id.recyclerView);
         createHikeButton = findViewById(R.id.buttonCreateHike);
 
@@ -55,12 +55,10 @@ public class Feed extends AppCompatActivity {
     }
 
     private void loadHikes() {
-        // Retrieve all hikes from the database
-        hikeList.clear(); // Clear the list to avoid duplicates if this method is called again
+        hikeList.clear();
         Log.e("HikeList", "Clear");
 
         hikeList.addAll(hikeRepository.getAllHikes());
-        // Notify the adapter that the dataset has changed
         hikeAdapter.notifyDataSetChanged();
     }
 }

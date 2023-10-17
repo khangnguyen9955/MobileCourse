@@ -11,13 +11,13 @@ public class Hike {
     private String length;
     private String difficulty;
     private String description;
-    private String imagePath;
+    private byte[] imageBlob;
     private Date createdAt;
     private Date updatedAt;
 
     public Hike(){}
 
-    public Hike(int id, String name, String location,Date date, boolean parkingAvailable, String length, String difficulty, String description, String imagePath) {
+    public Hike(int id, String name, String location,Date date, boolean parkingAvailable, String length, String difficulty, String description, byte[] imageBlob){
         this.id = id;
         this.name = name;
         this.location = location;
@@ -26,18 +26,16 @@ public class Hike {
         this.length = length;
         this.difficulty = difficulty;
         this.description = description;
-        this.imagePath = imagePath;
+        this.imageBlob= imageBlob;
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
-    public String getImagePath() {
-        return imagePath;
+    public byte[] getImageBlob() {
+        return imageBlob;
     }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-    public int getId() {
+    public void setImageBlob(byte[] imageBlob) {
+        this.imageBlob = imageBlob;
+    }    public int getId() {
         return id;
     }
 
