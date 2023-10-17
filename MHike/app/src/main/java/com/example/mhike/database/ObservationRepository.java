@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import com.example.mhike.models.Observation;
 
@@ -34,8 +35,11 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
         values.put(TableContract.ObservationEntry.COLUMN_HIKE_ID, observation.getHikeId());
         values.put(TableContract.ObservationEntry.COLUMN_NAME, observation.getName());
         values.put(TableContract.ObservationEntry.COLUMN_DATE, formatDate(observation.getDate()));
-        values.put(TableContract.ObservationEntry.COLUMN_NOTES, observation.getNotes());
-
+        values.put(TableContract.ObservationEntry.COLUMN_COMMENTS, observation.getComments());
+        values.put(TableContract.ObservationEntry.COLUMN_CREATED_AT,new Date().toString());
+        values.put(TableContract.ObservationEntry.COLUMN_UPDATED_AT,new Date().toString());
+        Log.i("insertObservation", observation.getName() + " " + observation.getDate() + " " + observation.getComments());
+        Log.i("insertObservation", String.valueOf(observation.getHikeId()));
         long observationId = -1;
 
         try {
@@ -62,7 +66,7 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
                     TableContract.ObservationEntry.COLUMN_HIKE_ID,
                     TableContract.ObservationEntry.COLUMN_NAME,
                     TableContract.ObservationEntry.COLUMN_DATE,
-                    TableContract.ObservationEntry.COLUMN_NOTES
+                    TableContract.ObservationEntry.COLUMN_COMMENTS
             };
 
             String selection = TableContract.ObservationEntry._ID + " = ?";
@@ -103,9 +107,9 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
                     TableContract.ObservationEntry.COLUMN_HIKE_ID,
                     TableContract.ObservationEntry.COLUMN_NAME,
                     TableContract.ObservationEntry.COLUMN_DATE,
-                    TableContract.ObservationEntry.COLUMN_NOTES
+                    TableContract.ObservationEntry.COLUMN_COMMENTS
             };
-
+            Log.e("getObservationsForHike", String.valueOf(hikeId));
             String selection = TableContract.ObservationEntry.COLUMN_HIKE_ID + " = ?";
             String[] selectionArgs = {String.valueOf(hikeId)};
 
@@ -118,10 +122,11 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
                     null,
                     null
             );
-
+            Log.i("getObservationsForHike", String.valueOf(cursor.getCount()));
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     Observation observation = cursorToObservation(cursor);
+                    Log.i("Observation", observation.getName());
                     observationList.add(observation);
                 } while (cursor.moveToNext());
             }
@@ -142,7 +147,7 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
         values.put(TableContract.ObservationEntry.COLUMN_HIKE_ID, observation.getHikeId());
         values.put(TableContract.ObservationEntry.COLUMN_NAME, observation.getName());
         values.put(TableContract.ObservationEntry.COLUMN_DATE,observation.getDate().toString());
-        values.put(TableContract.ObservationEntry.COLUMN_NOTES, observation.getNotes());
+        values.put(TableContract.ObservationEntry.COLUMN_COMMENTS, observation.getComments());
 
         String selection = TableContract.ObservationEntry._ID + " = ?";
         String[] selectionArgs = {String.valueOf(observation.getId())};
@@ -192,7 +197,7 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
         observation.setName(cursor.getString(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_NAME)));
 
         observation.setDate(parseDate(cursor.getString(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_DATE))));
-        observation.setNotes(cursor.getString(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_NOTES)));
+        observation.setComments(cursor.getString(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_COMMENTS)));
         return observation;
     }
 

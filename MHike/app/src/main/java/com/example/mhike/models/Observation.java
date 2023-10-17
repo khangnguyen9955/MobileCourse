@@ -7,18 +7,18 @@ public class Observation {
     private int hikeId;
     private String name;
     private Date date;
-    private String notes;
+    private String comments;
     private Date createdAt;
     private Date updatedAt;
 
     public Observation(){}
 
-    public Observation(int id, int hikeId, String name, Date date, String notes) {
+    public Observation(int id, int hikeId, String name, Date date, String comments) {
         this.id = id;
         this.hikeId = hikeId;
         this.name = name;
         this.date = date;
-        this.notes = notes;
+        this.comments = comments;
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
@@ -54,12 +54,12 @@ public class Observation {
         this.date = date;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getComments() {
+        return comments;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public Date getCreatedAt() {

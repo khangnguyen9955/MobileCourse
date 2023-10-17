@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="check_box_preference_1"
+        android:title="Check box preference" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/updateInterval"
+        android:entryValues="@array/updateIntervalValues"
+        android:key="list_preference_1"
+        android:title="List preference" />
+    <EditTextPreference
+        android:defaultValue="Default welcome message"
+        android:dialogMessage="Provide a message"
+        android:dialogTitle="Welcome message"
+        android:key="welcome_message"
+        android:summary="Define the Welcome message to be shown"
+        android:title="Welcome message" />
 </PreferenceScreen>
