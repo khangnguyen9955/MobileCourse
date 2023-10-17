@@ -16,7 +16,7 @@ public final class TableContract {
         public static final String COLUMN_LENGTH = "length";
         public static final String COLUMN_DIFFICULTY = "difficulty";
         public static final String COLUMN_DESCRIPTION = "description";
-        public static final String COLUMN_IMAGE_PATH = "image_path";
+        public static final String COLUMN_IMAGE_BLOB = "image_blob";
         public static final String COLUMN_CREATED_AT = "created_at";
         public static final String COLUMN_UPDATED_AT = "updated_at";
 
@@ -30,7 +30,7 @@ public final class TableContract {
                         HikeEntry.COLUMN_LENGTH + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_DIFFICULTY + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_DESCRIPTION + " TEXT," +
-                        HikeEntry.COLUMN_IMAGE_PATH + " TEXT," +
+                        HikeEntry.COLUMN_IMAGE_BLOB + " BLOB, " +
                         HikeEntry.COLUMN_CREATED_AT + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_UPDATED_AT + " TEXT NOT NULL" +
                         ");";
@@ -41,7 +41,7 @@ public final class TableContract {
         public static final String COLUMN_HIKE_ID = "hike_id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_NOTES = "notes";
+        public static final String COLUMN_COMMENTS = "comments";
         public static final String COLUMN_CREATED_AT = "created_at";
         public static final String COLUMN_UPDATED_AT = "updated_at";
 
@@ -51,7 +51,7 @@ public final class TableContract {
                         ObservationEntry.COLUMN_HIKE_ID + " INTEGER NOT NULL," +
                         ObservationEntry.COLUMN_NAME + " TEXT NOT NULL," +
                         ObservationEntry.COLUMN_DATE + " TEXT NOT NULL," +
-                        ObservationEntry.COLUMN_NOTES + " TEXT," +
+                        ObservationEntry.COLUMN_COMMENTS + " TEXT," +
                         ObservationEntry.COLUMN_CREATED_AT + " TEXT NOT NULL," +
                         ObservationEntry.COLUMN_UPDATED_AT + " TEXT NOT NULL" +
                         ");";
