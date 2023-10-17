@@ -40,7 +40,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         values.put(TableContract.HikeEntry.COLUMN_LENGTH, hike.getLength());
         values.put(TableContract.HikeEntry.COLUMN_DIFFICULTY, hike.getDifficulty());
         values.put(TableContract.HikeEntry.COLUMN_DESCRIPTION, hike.getDescription());
-        values.put(TableContract.HikeEntry.COLUMN_IMAGE_PATH, hike.getImagePath());
+        values.put(TableContract.HikeEntry.COLUMN_IMAGE_BLOB, hike.getImageBlob());
         values.put(TableContract.HikeEntry.COLUMN_CREATED_AT,new Date().toString());
         values.put(TableContract.HikeEntry.COLUMN_UPDATED_AT,new Date().toString());
 
@@ -75,7 +75,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
                     TableContract.HikeEntry.COLUMN_LENGTH,
                     TableContract.HikeEntry.COLUMN_DIFFICULTY,
                     TableContract.HikeEntry.COLUMN_DESCRIPTION,
-                    TableContract.HikeEntry.COLUMN_IMAGE_PATH
+                    TableContract.HikeEntry.COLUMN_IMAGE_BLOB
             };
 
             String selection = TableContract.HikeEntry._ID + " = ?";
@@ -120,7 +120,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
                     TableContract.HikeEntry.COLUMN_LENGTH,
                     TableContract.HikeEntry.COLUMN_DIFFICULTY,
                     TableContract.HikeEntry.COLUMN_DESCRIPTION,
-                    TableContract.HikeEntry.COLUMN_IMAGE_PATH
+                    TableContract.HikeEntry.COLUMN_IMAGE_BLOB
             };
 
             cursor = database.query(
@@ -160,7 +160,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         values.put(TableContract.HikeEntry.COLUMN_LENGTH, hike.getLength());
         values.put(TableContract.HikeEntry.COLUMN_DIFFICULTY, hike.getDifficulty());
         values.put(TableContract.HikeEntry.COLUMN_DESCRIPTION, hike.getDescription());
-        values.put(TableContract.HikeEntry.COLUMN_IMAGE_PATH, hike.getImagePath());
+        values.put(TableContract.HikeEntry.COLUMN_IMAGE_BLOB, hike.getImageBlob());
 
         String selection = TableContract.HikeEntry._ID + " = ?";
         String[] selectionArgs = {String.valueOf(hike.getId())};
@@ -213,7 +213,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         int lengthIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_LENGTH);
         int difficultyIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_DIFFICULTY);
         int descriptionIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_DESCRIPTION);
-        int imagePathIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_IMAGE_PATH);
+        int imageBlobIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_IMAGE_BLOB);
 
         long hikeId = cursor.getLong(idIndex);
         String hikeName = cursor.getString(nameIndex);
@@ -227,7 +227,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         String hikeLength = cursor.getString(lengthIndex);
         String hikeDifficulty = cursor.getString(difficultyIndex);
         String hikeDescription = cursor.getString(descriptionIndex);
-        String imagePath = cursor.getString(imagePathIndex);
+        byte[] imageBlob = cursor.getBlob(imageBlobIndex);
         Hike hike = new Hike();
         hike.setId((int) hikeId);
         hike.setName(hikeName);
@@ -237,7 +237,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         hike.setLength(hikeLength);
         hike.setDifficulty(hikeDifficulty);
         hike.setDescription(hikeDescription);
-        hike.setImagePath(imagePath);
+        hike.setImageBlob(imageBlob);
 
         return hike;
     }
