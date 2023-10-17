@@ -13,6 +13,12 @@
         android:theme="@style/Theme.MHike"
         tools:targetApi="31">
         <activity
+            android:name=".EditHike"
+            android:exported="false" />
+        <activity
+            android:name=".CreateObservation"
+            android:exported="false" />
+        <activity
             android:name=".CreateHike"
             android:exported="false" />
         <activity
@@ -24,6 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HikeDetail"
+            android:parentActivityName=".Feed" />
     </application>
 
 </manifest>

@@ -22,6 +22,9 @@ import com.example.mhike.database.HikeRepository;
 import com.example.mhike.database.QueryContract;
 import com.example.mhike.models.Hike;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +40,8 @@ public class CreateHike extends AppCompatActivity {
     private RadioGroup radioGroupDifficulty;
     private EditText editTextDescription;
     private Button buttonChooseDate;
+    private Button buttonUploadImage;
+    private byte[] imageBlob;
     private static final int PICK_IMAGE_REQUEST = 1;
     private HikeRepository hikeRepository; // Declare the HikeRepository instance variable
 
@@ -44,6 +49,8 @@ public class CreateHike extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_hike);
+        setTitle("Add Hike");
+
         hikeRepository = new HikeRepository(this);
 
         editTextHikeName = findViewById(R.id.editTextHikeName);
@@ -54,9 +61,9 @@ public class CreateHike extends AppCompatActivity {
         radioGroupDifficulty = findViewById(R.id.radioGroupDifficulty);
         editTextDescription = findViewById(R.id.editTextDescription);
         buttonChooseDate = findViewById(R.id.buttonChooseDate);
+        buttonUploadImage = findViewById(R.id.buttonUploadImage);
 
         // Handle the "Upload Image" button click
-        Button buttonUploadImage = findViewById(R.id.buttonUploadImage);
         buttonUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,61 +84,63 @@ public class CreateHike extends AppCompatActivity {
         buttonSaveHike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateInput()) {
-                    // Proceed with saving the hike to the database
-                    String hikeName = editTextHikeName.getText().toString();
-                    String location = editTextLocation.getText().toString();
-                    int year = datePickerDate.getYear();
-                    int month = datePickerDate.getMonth();
-                    int day = datePickerDate.getDayOfMonth();
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, month, day);
-                    Date date = calendar.getTime();
-                    int selectedParkingRadioButtonId = radioGroupParkingAvailable.getCheckedRadioButtonId(); // Get the selected radio button ID
-                    boolean parkingAvailable = selectedParkingRadioButtonId == R.id.radioButtonYes; // Check if Yes radio button is selected
-                    String length = editTextLength.getText().toString();
+            onSaveClicked();
+            }
+        });
 
-                    // Get the selected difficulty level
-                    int selectedRadioButtonId = radioGroupDifficulty.getCheckedRadioButtonId();
-                    RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-                    String difficulty = selectedRadioButton.getText().toString();
-
-                    String description = editTextDescription.getText().toString();
-
-                    // Create a new Hike object with the gathered information
-                    Hike newHike = new Hike();
-                    newHike.setName(hikeName);
-                    newHike.setLocation(location);
-                    newHike.setDate(date);
-                    newHike.setParkingAvailable(parkingAvailable);
-                    newHike.setLength(length);
-                    newHike.setDifficulty(difficulty);
-                    newHike.setDescription(description);
-                    Log.e("Hike", newHike.getDate().toString());
-                    Log.e("HikeDate", String.valueOf(date));
-                    // Save the hike to the database
-                    long hikeId = hikeRepository.insertHike(newHike);
-
-                    if (hikeId > -1) {
-                        // Hike was successfully inserted
-                        Toast.makeText(CreateHike.this, "Hike saved with ID: " + hikeId, Toast.LENGTH_SHORT).show();
-                        // Clear the input fields or navigate to another screen as needed
-//                        clearInputFields();
-
-                        // Navigate back to the FeedActivity
-                        Intent intent = new Intent(CreateHike.this, Feed.class);
-                        startActivity(intent);
-                    } else {
-                        // There was an error inserting the hike
-                        Log.e("HikeInsertion", "Failed to save hike to the database. Hike ID: " + hikeId);
-
-                        Toast.makeText(CreateHike.this, "Failed to save hike", Toast.LENGTH_SHORT).show();
-                    }
-                }
+        Button buttonCancel = findViewById(R.id.buttonCancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancelClicked();
             }
         });
     }
 
+    private void onSaveClicked() {
+        if (validateInput()) {
+            String hikeName = editTextHikeName.getText().toString();
+            String location = editTextLocation.getText().toString();
+            int year = datePickerDate.getYear();
+            int month = datePickerDate.getMonth();
+            int day = datePickerDate.getDayOfMonth();
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+            Date date = calendar.getTime();
+            int selectedParkingRadioButtonId = radioGroupParkingAvailable.getCheckedRadioButtonId();
+            boolean parkingAvailable = selectedParkingRadioButtonId == R.id.radioButtonYes;
+            String length = editTextLength.getText().toString();
+            int selectedRadioButtonId = radioGroupDifficulty.getCheckedRadioButtonId();
+            RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+            String difficulty = selectedRadioButton.getText().toString();
+            String description = editTextDescription.getText().toString();
+            Hike newHike = new Hike();
+            newHike.setName(hikeName);
+            newHike.setLocation(location);
+            newHike.setDate(date);
+            newHike.setParkingAvailable(parkingAvailable);
+            newHike.setLength(length);
+            newHike.setDifficulty(difficulty);
+            newHike.setDescription(description);
+            newHike.setImageBlob(imageBlob);
+            Log.e("Hike", newHike.getDate().toString());
+            Log.e("HikeDate", String.valueOf(date));
+            // Save the hike to the database
+            long hikeId = hikeRepository.insertHike(newHike);
+            if (hikeId > -1) {
+                Toast.makeText(CreateHike.this, "Saved new hike!" , Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CreateHike.this, Feed.class);
+                startActivity(intent);
+            } else {
+                Log.e("HikeInsertion", "Failed to save hike to the database. Hike ID: " + hikeId);
+                Toast.makeText(CreateHike.this, "Failed to save hike", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void onCancelClicked() {
+        Intent intent = new Intent(CreateHike.this, Feed.class);
+        startActivity(intent);
+    }
     private void showDatePicker() {
         int year = datePickerDate.getYear();
         int month = datePickerDate.getMonth();
@@ -228,7 +237,28 @@ public class CreateHike extends AppCompatActivity {
             // Get the selected image URI
             Uri imageUri = data.getData();
 
-            // TODO: Handle the selected image (e.g., display it or upload it to a server)
+            // Convert the selected image to a byte array
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                imageBlob = getBytes(inputStream);
+                // Now you have the image as a byte array (imageBlob)
+                // You can save this byte array to the database
+                // TODO: Insert the 'imageBlob' into the database when saving the hike
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
+    private byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+
+        return byteBuffer.toByteArray();
     }
 }
