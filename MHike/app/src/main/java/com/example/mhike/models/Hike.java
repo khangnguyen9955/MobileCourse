@@ -14,10 +14,11 @@ public class Hike {
     private byte[] imageBlob;
     private Date createdAt;
     private Date updatedAt;
+    private float rating;
 
     public Hike(){}
 
-    public Hike(int id, String name, String location,Date date, boolean parkingAvailable, String length, String difficulty, String description, byte[] imageBlob){
+    public Hike(int id, String name, String location,Date date, boolean parkingAvailable, String length, String difficulty, String description, byte[] imageBlob, float rating){
         this.id = id;
         this.name = name;
         this.location = location;
@@ -29,6 +30,14 @@ public class Hike {
         this.imageBlob= imageBlob;
         this.createdAt = new Date();
         this.updatedAt = new Date();
+        this.rating = rating;
+    }
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
     public byte[] getImageBlob() {
         return imageBlob;

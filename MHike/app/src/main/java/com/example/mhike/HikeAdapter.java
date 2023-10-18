@@ -42,12 +42,12 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
         Hike currentHike = hikeList.get(position);
         holder.textViewHikeTitle.setText(currentHike.getName());
         holder.textViewHikeLocation.setText(currentHike.getLocation());
+        holder.textViewHikeRating.setText(String.valueOf(currentHike.getRating()));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         String formattedDate = dateFormat.format(currentHike.getDate());
         holder.textViewHikeDate.setText(formattedDate);
         holder.textViewLength.setText(currentHike.getLength() + " km");
         holder.textViewDifficulty.setText(currentHike.getDifficulty());
-
         // Check if there is an image associated with the hike
         byte[] imageBlob = currentHike.getImageBlob();
         if (imageBlob != null) {
@@ -81,7 +81,7 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
         TextView textViewHikeDate;
         TextView textViewLength;
         TextView textViewDifficulty;
-
+        TextView textViewHikeRating;
         ImageView imageViewBackground;
 
 
@@ -93,6 +93,7 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
             textViewDifficulty = itemView.findViewById(R.id.textViewHikeDifficulty);
             textViewHikeDate = itemView.findViewById(R.id.textViewHikeDate);
             imageViewBackground = itemView.findViewById(R.id.imageViewBackground);
+            textViewHikeRating = itemView.findViewById(R.id.textViewHikeRating);
             // Initialize other views here...
         }
     }
