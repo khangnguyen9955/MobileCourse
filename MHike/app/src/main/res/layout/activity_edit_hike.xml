@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
-
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
     <!-- Hike Name -->
     <TextView
+        android:id="@+id/editTextViewHikeName"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hike name "
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/editTextHikeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter hike name"
-        android:inputType="text"
+        android:inputType="text" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewHikeName"
         android:textSize="14sp" />
 
     <!-- Location -->
     <TextView
+
+        android:id="@+id/editTextViewLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextHikeName"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp" />
 
@@ -35,10 +50,16 @@
         android:layout_height="wrap_content"
         android:hint="Enter location"
         android:inputType="text"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewLocation"
         android:textSize="14sp" />
 
     <!-- Date -->
     <TextView
+        android:id="@+id/editTextViewDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date "
@@ -50,6 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewDate"
         android:visibility="gone" />
 
     <TextView
@@ -58,6 +80,8 @@
         android:layout_height="wrap_content"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewDate"
         />
 
     <Button
@@ -66,10 +90,15 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green"
         android:text="Choose Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editDateDisplay"
         android:textSize="14sp" />
 
     <!-- Parking Available -->
     <TextView
+        android:id="@+id/editTextViewParkingAvailable"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editButtonChooseDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Parking Available"
@@ -80,7 +109,8 @@
         android:id="@+id/editRadioGroupParkingAvailable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewParkingAvailable">
 
         <RadioButton
             android:id="@+id/radioButtonYes"
@@ -101,6 +131,9 @@
 
     <!-- Length -->
     <TextView
+        android:id="@+id/editTextViewLength"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editRadioGroupParkingAvailable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Length (km)"
@@ -113,21 +146,27 @@
         android:layout_height="wrap_content"
         android:hint="Enter length"
         android:inputType="number"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewLength"/>
 
     <!-- Difficulty -->
     <TextView
+        android:id="@+id/editTextViewDifficulty"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Difficulty"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextLength"/>
 
     <RadioGroup
         android:id="@+id/editRadioGroupDifficulty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewDifficulty">
 
         <RadioButton
             android:id="@+id/radioButtonEasy"
@@ -157,6 +196,9 @@
 
     <!-- Description -->
     <TextView
+        android:id="@+id/editTextViewDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editRadioGroupDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description "
@@ -168,46 +210,73 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextViewDescription"
         android:inputType="textMultiLine"
         android:minLines="3"
         android:textSize="14sp" />
 
     <!-- Upload Image Button -->
     <Button
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextDescription"
         android:id="@+id/editButtonUploadImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green"
         android:text="Upload Image"
         android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textViewRating"
+            android:layout_width="wrap_content"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:orientation="horizontal">
-
-        <!-- Cancel Button -->
-        <Button
-            android:id="@+id/buttonCancel"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/red"
-            android:text="Cancel"
-            android:textSize="14sp" />
+            android:text="Rating Score"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editButtonUploadImage" />
 
-        <View
-            android:layout_width="16dp"
-            android:layout_height="match_parent" />
+        <RatingBar
 
-        <Button
-            android:id="@+id/buttonSaveEditedHike"
-            android:layout_width="0dp"
+            android:id="@+id/ratingBarHike"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:numStars="5"
+            android:rating="0.0"
+            android:stepSize="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewRating" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/green"
-            android:text="Save"
-            android:textSize="14sp" />
-    </LinearLayout>
-</LinearLayout>
+            android:orientation="horizontal"
+            android:padding="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ratingBarHike">
+
+            <!-- Cancel Button -->
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/red"
+                android:text="Cancel"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/buttonSaveEditedHike"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:text="Save"
+                android:textSize="14sp" />
+        </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout></ScrollView>
