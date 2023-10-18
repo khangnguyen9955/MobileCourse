@@ -1,36 +1,45 @@
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
 
-    <!-- Observation Name -->
-    <TextView
-        android:id="@+id/textObservationName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Observation Name"
-        android:textSize="18sp"
-        android:textColor="@color/black" />
 
-    <!-- Observation Date -->
-    <TextView
-        android:id="@+id/textObservationDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Observation Date"
-        android:textSize="16sp"
-        android:textColor="@color/gray" />
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:padding="8dp">
 
-    <!-- Observation Comments -->
-    <TextView
-        android:id="@+id/textObservationComments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Observation Comments"
-        android:textSize="16sp"
-        android:textColor="@color/gray" />
+<!-- Observation Name -->
+<TextView
+    android:id="@+id/textObservationName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Observation Name"
+    android:textColor="@color/black"
+    android:textSize="13sp" />
+
+<!-- Observation Date -->
+<TextView
+    android:id="@+id/textObservationDate"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Observation Date"
+    android:textColor="@color/gray"
+    android:textSize="13sp" />
+
+<!-- Observation Comments -->
+<TextView
+    android:id="@+id/textObservationComments"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Observation Comments"
+    android:textColor="@color/gray"
+    android:textSize="13sp" />
 
 </LinearLayout>
+    </androidx.cardview.widget.CardView>
