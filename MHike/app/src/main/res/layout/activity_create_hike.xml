@@ -1,87 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    >
 
     <!-- Hike Name -->
     <TextView
+        android:id="@+id/textViewHikeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hike name (Required)"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextHikeName"
+        android:id="@+id/createTextHikeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter hike name"
         android:inputType="text"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewHikeName" />
 
     <!-- Location -->
     <TextView
+        android:id="@+id/textViewLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location (Required)"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createTextHikeName" />
 
     <EditText
-        android:id="@+id/editTextLocation"
+        android:id="@+id/createTextLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter location"
-        android:inputType="text"
-        android:textSize="14sp" />
+
+        android:inputType="text
+"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewLocation" />
 
     <!-- Date -->
     <TextView
+        android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date (Required)"
+
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createTextLocation" />
 
     <DatePicker
         android:id="@+id/datePickerHike"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/textViewDate" />
 
     <TextView
         android:id="@+id/dateDisplay"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/textViewDate" />
 
     <Button
         android:id="@+id/buttonChooseDate"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green"
         android:text="Choose Date"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateDisplay" />
 
     <!-- Parking Available -->
     <TextView
+        android:id="@+id/textViewParkingAvailable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:text="Parking Available"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonChooseDate" />
 
     <RadioGroup
         android:id="@+id/radioGroupParkingAvailable"
-        android:layout_width="502dp"
+        android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/textViewParkingAvailable">
 
         <RadioButton
             android:id="@+id/radioButtonYes"
@@ -102,33 +140,43 @@
 
     <!-- Length -->
     <TextView
+        android:id="@+id/textViewLength"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Length (km)"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupParkingAvailable" />
 
     <EditText
-        android:id="@+id/editTextLength"
+        android:id="@+id/createTextLength"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter length"
         android:inputType="number"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/textViewLength" />
 
     <!-- Difficulty -->
     <TextView
+        android:id="@+id/textViewDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Difficulty"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createTextLength" />
 
     <RadioGroup
         android:id="@+id/radioGroupDifficulty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+
+        app:layout_constraintTop_toBottomOf="@id/textViewDifficulty">
 
         <RadioButton
             android:id="@+id/radioButtonEasy"
@@ -158,20 +206,26 @@
 
     <!-- Description -->
     <TextView
+        android:id="@+id/textViewDescription"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description (Optional)"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupDifficulty" />
 
     <EditText
-        android:id="@+id/editTextDescription"
+
+        android:id="@+id/createTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter description"
         android:inputType="textMultiLine"
         android:minLines="3"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
 
     <!-- Upload Image Button -->
     <Button
@@ -179,16 +233,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green"
-
         android:text="Upload Image"
-        android:textSize="14sp" />
+        android:textSize="14sp"
 
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createTextDescription" />
+
+    <TextView
+        android:id="@+id/textViewRating"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:text="Rating Score"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonUploadImage" />
+
+    <RatingBar
+
+        android:id="@+id/ratingBarHike"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:numStars="5"
+        android:rating="0.0"
+        android:stepSize="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewRating" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="4dp"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@id/ratingBarHike">
 
 
         <!-- Cancel Button -->
@@ -197,13 +275,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="onCancelClicked"
             android:backgroundTint="@color/red"
+            android:onClick="onCancelClicked"
             android:text="Cancel"
             android:textSize="14sp" />
+
         <View
             android:layout_width="16dp"
-        android:layout_height="match_parent" />
+            android:layout_height="match_parent" />
+
         <Button
             android:id="@+id/buttonSaveHike"
             android:layout_width="0dp"
@@ -214,4 +294,4 @@
             android:text="Save"
             android:textSize="14sp" />
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout></ScrollView>
