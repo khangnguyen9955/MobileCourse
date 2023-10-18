@@ -41,8 +41,9 @@ public class HikeRepository implements QueryContract.HikeRepository {
         values.put(TableContract.HikeEntry.COLUMN_DIFFICULTY, hike.getDifficulty());
         values.put(TableContract.HikeEntry.COLUMN_DESCRIPTION, hike.getDescription());
         values.put(TableContract.HikeEntry.COLUMN_IMAGE_BLOB, hike.getImageBlob());
-        values.put(TableContract.HikeEntry.COLUMN_CREATED_AT,new Date().toString());
-        values.put(TableContract.HikeEntry.COLUMN_UPDATED_AT,new Date().toString());
+        values.put(TableContract.HikeEntry.COLUMN_CREATED_AT, new Date().toString());
+        values.put(TableContract.HikeEntry.COLUMN_UPDATED_AT, new Date().toString());
+        values.put(TableContract.HikeEntry.COLUMN_RATING, hike.getRating());
 
 
         long hikeId = -1;
@@ -75,7 +76,9 @@ public class HikeRepository implements QueryContract.HikeRepository {
                     TableContract.HikeEntry.COLUMN_LENGTH,
                     TableContract.HikeEntry.COLUMN_DIFFICULTY,
                     TableContract.HikeEntry.COLUMN_DESCRIPTION,
-                    TableContract.HikeEntry.COLUMN_IMAGE_BLOB
+                    TableContract.HikeEntry.COLUMN_IMAGE_BLOB,
+                    TableContract.HikeEntry.COLUMN_RATING
+
             };
 
             String selection = TableContract.HikeEntry._ID + " = ?";
@@ -94,8 +97,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
             if (cursor != null && cursor.moveToFirst()) {
                 hike = cursorToHike(cursor);
             }
-        }
-         finally {
+        } finally {
             if (cursor != null) {
                 cursor.close();
             }
@@ -120,7 +122,9 @@ public class HikeRepository implements QueryContract.HikeRepository {
                     TableContract.HikeEntry.COLUMN_LENGTH,
                     TableContract.HikeEntry.COLUMN_DIFFICULTY,
                     TableContract.HikeEntry.COLUMN_DESCRIPTION,
-                    TableContract.HikeEntry.COLUMN_IMAGE_BLOB
+                    TableContract.HikeEntry.COLUMN_IMAGE_BLOB,
+                    TableContract.HikeEntry.COLUMN_RATING
+
             };
 
             cursor = database.query(
@@ -161,6 +165,8 @@ public class HikeRepository implements QueryContract.HikeRepository {
         values.put(TableContract.HikeEntry.COLUMN_DIFFICULTY, hike.getDifficulty());
         values.put(TableContract.HikeEntry.COLUMN_DESCRIPTION, hike.getDescription());
         values.put(TableContract.HikeEntry.COLUMN_IMAGE_BLOB, hike.getImageBlob());
+        values.put(TableContract.HikeEntry.COLUMN_RATING, hike.getRating());
+
 
         String selection = TableContract.HikeEntry._ID + " = ?";
         String[] selectionArgs = {String.valueOf(hike.getId())};
@@ -214,6 +220,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         int difficultyIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_DIFFICULTY);
         int descriptionIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_DESCRIPTION);
         int imageBlobIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_IMAGE_BLOB);
+        int ratingIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_RATING); // Add this line
 
         long hikeId = cursor.getLong(idIndex);
         String hikeName = cursor.getString(nameIndex);
@@ -222,6 +229,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         // Parse the date string from the cursor into a Date object
         String dateStr = cursor.getString(dateIndex);
         Date hikeDate = parseDate(dateStr);
+        float hikeRating = cursor.getFloat(ratingIndex);
 
         boolean parkingAvailable = cursor.getInt(parkingIndex) == 1; // Assuming 1 means "Yes" and 0 means "No"
         String hikeLength = cursor.getString(lengthIndex);
@@ -238,9 +246,10 @@ public class HikeRepository implements QueryContract.HikeRepository {
         hike.setDifficulty(hikeDifficulty);
         hike.setDescription(hikeDescription);
         hike.setImageBlob(imageBlob);
-
+        hike.setRating(hikeRating);
         return hike;
     }
+
     private String formatDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.format(date);
