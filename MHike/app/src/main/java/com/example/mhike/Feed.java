@@ -27,7 +27,7 @@ public class Feed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
-        setTitle("Feed");
+        setTitle("Your Hikes");
         recyclerView = findViewById(R.id.recyclerView);
         createHikeButton = findViewById(R.id.buttonCreateHike);
 
