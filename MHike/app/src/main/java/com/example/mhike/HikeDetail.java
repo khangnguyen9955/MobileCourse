@@ -59,7 +59,7 @@ public class HikeDetail extends AppCompatActivity {
         hikeParkingStatus = findViewById(R.id.textViewHikeParkingStatus);
         // Retrieve data passed from HikeAdapter
         Intent intent = getIntent();
-        int hikeId = intent.getIntExtra("hikeId", -1);
+        hikeId = intent.getIntExtra("hikeId", -1);
 
         recyclerView = findViewById(R.id.recyclerViewObservations);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -100,6 +100,7 @@ public class HikeDetail extends AppCompatActivity {
             // Handle the edit action
             Intent editIntent = new Intent(this, EditHike.class);
             editIntent.putExtra("hikeId", hikeId);
+            Log.i("HikeEdit", "hikeId: " + hikeId);
             startActivity(editIntent);
             return true;
         } else if (id == R.id.action_delete) {
