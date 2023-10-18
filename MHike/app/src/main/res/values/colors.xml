@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#fb7185</color>
     <color name="green">#34d399</color>
-    <color name="greenPrimary">#10b981</color>
+    <color name="emerald">#dcfce7</color>
+    <color name="yellow">#fde047</color>
+    <color name="greenPrimary">#34d399</color>
     <color name="graySecondary">#d4d4d8</color>
     <color name="gray">#a3a3a3</color>
 </resources>
