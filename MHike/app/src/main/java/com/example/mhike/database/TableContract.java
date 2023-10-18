@@ -19,6 +19,7 @@ public final class TableContract {
         public static final String COLUMN_IMAGE_BLOB = "image_blob";
         public static final String COLUMN_CREATED_AT = "created_at";
         public static final String COLUMN_UPDATED_AT = "updated_at";
+        public static final String COLUMN_RATING = "rating";
 
         public static final String CREATE_HIKES_TABLE =
                 "CREATE TABLE " + HIKES_TABLE_NAME + " (" +
@@ -31,6 +32,7 @@ public final class TableContract {
                         HikeEntry.COLUMN_DIFFICULTY + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_DESCRIPTION + " TEXT," +
                         HikeEntry.COLUMN_IMAGE_BLOB + " BLOB, " +
+                        HikeEntry.COLUMN_RATING + " REAL," +
                         HikeEntry.COLUMN_CREATED_AT + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_UPDATED_AT + " TEXT NOT NULL" +
                         ");";
