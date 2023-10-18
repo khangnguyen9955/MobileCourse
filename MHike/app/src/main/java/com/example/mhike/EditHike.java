@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class EditHike extends AppCompatActivity {
     private RadioGroup radioGroupDifficulty;
     private RadioGroup radioGroupParkingAvailable;
     private DatePicker datePickerDate;
+    private RatingBar hikeRatingBar;
 
     private Button buttonChooseDate;
     private Button saveHikeButton;
@@ -45,6 +47,7 @@ public class EditHike extends AppCompatActivity {
     private TextView dateDisplay;
     private int hikeId;
     private byte[] imageBlob;
+    private float rating;
 
     private HikeRepository hikeRepository;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -56,7 +59,7 @@ public class EditHike extends AppCompatActivity {
         setContentView(R.layout.activity_edit_hike);
 
         hikeRepository = new HikeRepository(this);
-
+        hikeRatingBar = findViewById(R.id.ratingBarHike);
         hikeNameEditText = findViewById(R.id.editTextHikeName);
         hikeLocationEditText = findViewById(R.id.editTextLocation);
         hikeLengthEditText = findViewById(R.id.editTextLength);
@@ -85,7 +88,7 @@ public class EditHike extends AppCompatActivity {
             hikeLocationEditText.setText(selectedHike.getLocation());
             hikeLengthEditText.setText(selectedHike.getLength());
             imageBlob = selectedHike.getImageBlob();
-
+            hikeRatingBar.setRating(selectedHike.getRating());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MMM dd", Locale.US);
             String formattedDate = dateFormat.format(selectedHike.getDate());
             dateDisplay.setText(formattedDate);
@@ -134,7 +137,7 @@ public class EditHike extends AppCompatActivity {
                     String hikeName = hikeNameEditText.getText().toString();
                     String hikeLocation = hikeLocationEditText.getText().toString();
                     String hikeLength = hikeLengthEditText.getText().toString();
-
+                    float hikeRating = hikeRatingBar.getRating();
                     int selectedDifficultyId = radioGroupDifficulty.getCheckedRadioButtonId();
                     RadioButton selectedDifficultyRadioButton = findViewById(selectedDifficultyId);
                     String hikeDifficulty = selectedDifficultyRadioButton.getText().toString();
@@ -151,7 +154,7 @@ public class EditHike extends AppCompatActivity {
                     calendar.set(year, month, day);
                     Date date = calendar.getTime();
 
-                    updateHike(hikeId, hikeName, hikeLocation, hikeLength, hikeDifficulty, hikeDescription, parkingAvailable, date, imageBlob);
+                    updateHike(hikeId, hikeName, hikeLocation, hikeLength, hikeDifficulty, hikeDescription, parkingAvailable, date, imageBlob, hikeRating);
                     Toast.makeText(EditHike.this, "Edited the hike!" , Toast.LENGTH_SHORT).show();
                     Intent hikeDetailIntent = new Intent(EditHike.this, HikeDetail.class);
                     hikeDetailIntent.putExtra("hikeId", hikeId);
@@ -159,10 +162,22 @@ public class EditHike extends AppCompatActivity {
                 }
             }
         });
+        Button cancelButton = findViewById(R.id.buttonCancel);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancelClicked();
+            }
+        });
 
 
     }
-
+    private void onCancelClicked() {
+        Intent hikeDetailIntent = new Intent(EditHike.this, HikeDetail.class);
+        hikeDetailIntent.putExtra("hikeId", hikeId);
+        startActivity(hikeDetailIntent);
+    }
     private boolean validateInput() {
         String hikeName = hikeNameEditText.getText().toString().trim();
         String location = hikeLocationEditText.getText().toString().trim();
@@ -227,7 +242,7 @@ public class EditHike extends AppCompatActivity {
         }
     }
 
-    private void updateHike(int hikeId, String name, String location, String length, String difficulty, String description, boolean parkingAvailable, Date date, byte[] imageBlob) {
+    private void updateHike(int hikeId, String name, String location, String length, String difficulty, String description, boolean parkingAvailable, Date date, byte[] imageBlob, float rating) {
         Hike hike = hikeRepository.getHike(hikeId);
         if (hike != null) {
             hike.setName(name);
@@ -240,6 +255,7 @@ public class EditHike extends AppCompatActivity {
             hike.setImageBlob(
                     imageBlob
             );
+            hike.setRating(rating);
             hikeRepository.updateHike(hike);
         }
     }

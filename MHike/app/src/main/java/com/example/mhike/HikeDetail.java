@@ -31,12 +31,14 @@ public class HikeDetail extends AppCompatActivity {
     private ObservationRepository observationRepository;
     int hikeId;
     private HikeRepository hikeRepository;
+    private TextView hikeRatingTextView;
     private TextView hikeNameTextView;
     private TextView hikeLocationTextView;
     private TextView hikeDateTextView;
     private TextView hikeLengthTextView;
     private TextView hikeDifficultyTextView;
     private TextView hikeDescriptionTextView;
+    private float hikeRating;
     private TextView hikeParkingStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class HikeDetail extends AppCompatActivity {
         hikeDifficultyTextView = findViewById(R.id.textViewHikeDifficulty);
         hikeDescriptionTextView = findViewById(R.id.textViewHikeDescription);
         hikeParkingStatus = findViewById(R.id.textViewHikeParkingStatus);
+        hikeRatingTextView = findViewById(R.id.textViewHikeRating);
         // Retrieve data passed from HikeAdapter
         Intent intent = getIntent();
         hikeId = intent.getIntExtra("hikeId", -1);
@@ -124,6 +127,7 @@ public class HikeDetail extends AppCompatActivity {
             hikeLengthTextView.setText(selectedHike.getLength() + " km");
             hikeDifficultyTextView.setText(selectedHike.getDifficulty());
             hikeParkingStatus.setText(selectedHike.isParkingAvailable() ? "Yes" : "No");
+            hikeRatingTextView.setText(String.valueOf(selectedHike.getRating()));
             if (selectedHike.getDescription() == null || selectedHike.getDescription().isEmpty()) {
                 hikeDescriptionTextView.setText("No description.");
             } else {
