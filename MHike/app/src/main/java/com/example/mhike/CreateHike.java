@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mhike.database.HikeRepository;
-import com.example.mhike.database.QueryContract;
 import com.example.mhike.models.Hike;
 
 import java.io.ByteArrayOutputStream;
@@ -32,17 +31,18 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CreateHike extends AppCompatActivity {
-    private EditText editTextHikeName;
-    private EditText editTextLocation;
+    private EditText createTextHikeName;
+    private EditText createTextLocation;
     private DatePicker datePickerDate;
     private RadioGroup radioGroupParkingAvailable;
-    private EditText editTextLength;
+    private EditText createTextLength;
     private RadioGroup radioGroupDifficulty;
-    private EditText editTextDescription;
+    private EditText createTextDescription;
     private Button buttonChooseDate;
     private Button buttonUploadImage;
     private byte[] imageBlob;
     private static final int PICK_IMAGE_REQUEST = 1;
+    private float hikeRating = 0.0f;
     private HikeRepository hikeRepository; // Declare the HikeRepository instance variable
 
     @Override
@@ -52,18 +52,23 @@ public class CreateHike extends AppCompatActivity {
         setTitle("Add Hike");
 
         hikeRepository = new HikeRepository(this);
-
-        editTextHikeName = findViewById(R.id.editTextHikeName);
-        editTextLocation = findViewById(R.id.editTextLocation);
+        RatingBar ratingBarHike = findViewById(R.id.ratingBarHike);
+        ratingBarHike.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                hikeRating = rating;
+            }
+        });
+        createTextHikeName = findViewById(R.id.createTextHikeName);
+        createTextLocation = findViewById(R.id.createTextLocation);
         datePickerDate = findViewById(R.id.datePickerHike);
         radioGroupParkingAvailable = findViewById(R.id.radioGroupParkingAvailable); // Add this line
-        editTextLength = findViewById(R.id.editTextLength);
+        createTextLength = findViewById(R.id.createTextLength);
         radioGroupDifficulty = findViewById(R.id.radioGroupDifficulty);
-        editTextDescription = findViewById(R.id.editTextDescription);
+        createTextDescription = findViewById(R.id.createTextDescription);
         buttonChooseDate = findViewById(R.id.buttonChooseDate);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
 
-        // Handle the "Upload Image" button click
         buttonUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +77,6 @@ public class CreateHike extends AppCompatActivity {
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         });
-        // Handle the "Choose Date" button click to show the DatePicker
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,8 +103,8 @@ public class CreateHike extends AppCompatActivity {
 
     private void onSaveClicked() {
         if (validateInput()) {
-            String hikeName = editTextHikeName.getText().toString();
-            String location = editTextLocation.getText().toString();
+            String hikeName = createTextHikeName.getText().toString();
+            String location = createTextLocation.getText().toString();
             int year = datePickerDate.getYear();
             int month = datePickerDate.getMonth();
             int day = datePickerDate.getDayOfMonth();
@@ -109,11 +113,11 @@ public class CreateHike extends AppCompatActivity {
             Date date = calendar.getTime();
             int selectedParkingRadioButtonId = radioGroupParkingAvailable.getCheckedRadioButtonId();
             boolean parkingAvailable = selectedParkingRadioButtonId == R.id.radioButtonYes;
-            String length = editTextLength.getText().toString();
+            String length = createTextLength.getText().toString();
             int selectedRadioButtonId = radioGroupDifficulty.getCheckedRadioButtonId();
             RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
             String difficulty = selectedRadioButton.getText().toString();
-            String description = editTextDescription.getText().toString();
+            String description = createTextDescription.getText().toString();
             Hike newHike = new Hike();
             newHike.setName(hikeName);
             newHike.setLocation(location);
@@ -123,9 +127,7 @@ public class CreateHike extends AppCompatActivity {
             newHike.setDifficulty(difficulty);
             newHike.setDescription(description);
             newHike.setImageBlob(imageBlob);
-            Log.e("Hike", newHike.getDate().toString());
-            Log.e("HikeDate", String.valueOf(date));
-            // Save the hike to the database
+            newHike.setRating(hikeRating);
             long hikeId = hikeRepository.insertHike(newHike);
             if (hikeId > -1) {
                 Toast.makeText(CreateHike.this, "Saved new hike!" , Toast.LENGTH_SHORT).show();
@@ -161,19 +163,18 @@ public class CreateHike extends AppCompatActivity {
                 year, month, day
         );
 
-        // Show the DatePicker dialog
         datePickerDialog.show();
     }
     private boolean validateInput() {
-        String hikeName = editTextHikeName.getText().toString().trim();
-        String location = editTextLocation.getText().toString().trim();
+        String hikeName = createTextHikeName.getText().toString().trim();
+        String location = createTextLocation.getText().toString().trim();
         String date = datePickerDate.getYear() + "-" +
                 (datePickerDate.getMonth() + 1) + "-" +
                 datePickerDate.getDayOfMonth();
 
         int selectedParkingRadioButtonId = radioGroupParkingAvailable.getCheckedRadioButtonId();
 
-        String length = editTextLength.getText().toString().trim();
+        String length = createTextLength.getText().toString().trim();
 
         boolean isValid = true;
 
