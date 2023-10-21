@@ -2,6 +2,8 @@ package com.example.mhike;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -47,9 +50,8 @@ public class EditHike extends AppCompatActivity {
     private TextView dateDisplay;
     private int hikeId;
     private byte[] imageBlob;
-    private float rating;
-
     private HikeRepository hikeRepository;
+    private ImageView hikeImageView;
     private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
@@ -65,7 +67,8 @@ public class EditHike extends AppCompatActivity {
         hikeLengthEditText = findViewById(R.id.editTextLength);
         datePickerDate = findViewById(R.id.editDatePickerHike);
         buttonChooseDate = findViewById(R.id.editButtonChooseDate);
-
+        hikeImageView = findViewById(R.id.imageViewUploaded);
+        Log.i("EditHike", "Image Blob: " + hikeImageView);
         radioGroupDifficulty = findViewById(R.id.editRadioGroupDifficulty);
         RadioButton radioButtonEasy = findViewById(R.id.radioButtonEasy);
         RadioButton radioButtonMedium = findViewById(R.id.radioButtonMedium);
@@ -88,6 +91,12 @@ public class EditHike extends AppCompatActivity {
             hikeLocationEditText.setText(selectedHike.getLocation());
             hikeLengthEditText.setText(selectedHike.getLength());
             imageBlob = selectedHike.getImageBlob();
+            if(imageBlob != null || imageBlob.length > 0){
+                Log.i("EditHike", "Image Blob: " + imageBlob.length);
+                Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
+                hikeImageView.setVisibility(View.VISIBLE);
+                hikeImageView.setImageBitmap(imageBitmap);
+            }
             hikeRatingBar.setRating(selectedHike.getRating());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MMM dd", Locale.US);
             String formattedDate = dateFormat.format(selectedHike.getDate());
@@ -112,9 +121,12 @@ public class EditHike extends AppCompatActivity {
 
             hikeDescriptionEditText.setText(selectedHike.getDescription());
 
-            if (selectedHike.getImageBlob() != null) {
+            if (selectedHike.getImageBlob() != null || selectedHike.getImageBlob().length > 0) {
                 editImageButton.setText("Edit Image");
             }
+        }
+        else{
+            Toast.makeText(this, "Hike not found", Toast.LENGTH_SHORT).show();
         }
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,6 +305,7 @@ public class EditHike extends AppCompatActivity {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 imageBlob = getBytes(inputStream);
+                hikeImageView.setImageURI(imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
