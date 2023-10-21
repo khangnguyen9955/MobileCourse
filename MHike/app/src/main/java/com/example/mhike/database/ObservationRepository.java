@@ -146,7 +146,7 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
         ContentValues values = new ContentValues();
         values.put(TableContract.ObservationEntry.COLUMN_HIKE_ID, observation.getHikeId());
         values.put(TableContract.ObservationEntry.COLUMN_NAME, observation.getName());
-        values.put(TableContract.ObservationEntry.COLUMN_DATE,observation.getDate().toString());
+        values.put(TableContract.ObservationEntry.COLUMN_DATE,formatDate(observation.getDate()));
         values.put(TableContract.ObservationEntry.COLUMN_COMMENTS, observation.getComments());
 
         String selection = TableContract.ObservationEntry._ID + " = ?";
@@ -162,7 +162,6 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
                     selectionArgs
             );
         } catch (SQLException e) {
-            // Handle the exception, e.g., log or display an error message
         } finally {
             database.close();
         }
@@ -183,7 +182,6 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
                     selectionArgs
             );
         } catch (SQLException e) {
-            // Handle the exception, e.g., log or display an error message
         } finally {
             database.close();
         }
