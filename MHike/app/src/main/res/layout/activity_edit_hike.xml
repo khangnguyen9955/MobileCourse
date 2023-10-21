@@ -215,17 +215,37 @@
         android:inputType="textMultiLine"
         android:minLines="3"
         android:textSize="14sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Image: (Optional)"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:id="@+id/textViewImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextDescription"
+            />
+        <ImageView
+            android:id="@+id/imageViewUploaded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewImage" />
 
-    <!-- Upload Image Button -->
+
     <Button
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextDescription"
+        app:layout_constraintTop_toBottomOf="@id/imageViewUploaded"
         android:id="@+id/editButtonUploadImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green"
         android:text="Upload Image"
         android:textSize="14sp" />
+
         <TextView
             android:id="@+id/textViewRating"
             android:layout_width="wrap_content"

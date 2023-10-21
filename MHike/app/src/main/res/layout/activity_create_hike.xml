@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="Parking Available"
+        android:text="Parking Available (Required) "
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,7 +143,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Length (km)"
+        android:text="Length (km) (Required)"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +163,7 @@
         android:id="@+id/textViewDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Difficulty"
+        android:text="Difficulty (Required)"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -225,8 +225,26 @@
         android:minLines="3"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image: (Optional)"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:id="@+id/textViewImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createTextDescription"
+        />
+    <ImageView
+        android:id="@+id/imageViewUploaded"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        android:layout_marginTop="4dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/textViewImage" />
 
-    <!-- Upload Image Button -->
     <Button
         android:id="@+id/buttonUploadImage"
         android:layout_width="wrap_content"
@@ -236,14 +254,14 @@
         android:textSize="14sp"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createTextDescription" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewUploaded" />
 
     <TextView
         android:id="@+id/textViewRating"
         android:layout_width="wrap_content"
 
         android:layout_height="wrap_content"
-        android:text="Rating Score"
+        android:text="Rating Score (Optional) "
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
