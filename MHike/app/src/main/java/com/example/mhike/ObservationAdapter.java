@@ -1,5 +1,6 @@
 package com.example.mhike;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +28,18 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
     public void onBindViewHolder(@NonNull ObservationViewHolder holder, int position) {
         Observation observation = observations.get(position);
 
-        // Set observation details to the view elements
-        holder.nameTextView.setText(observation.getName());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd", Locale.US);
         String formattedDate = sdf.format(observation.getDate());
+        holder.nameTextView.setText(observation.getName());
         holder.dateTextView.setText(formattedDate);
-        holder.commentsTextView.setText(observation.getComments());
+        holder.commentsTextView.setText(observation.getComments().isEmpty() ? "No comments" :  observation.getComments() );
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(),ObservationDetail.class);
+            intent.putExtra("observationId", observation.getId());
+            intent.putExtra("hikeId", observation.getHikeId());
+            view.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -57,4 +64,7 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
             commentsTextView = itemView.findViewById(R.id.textObservationComments);
         }
     }
+
+
+
 }
