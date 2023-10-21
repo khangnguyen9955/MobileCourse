@@ -21,7 +21,10 @@ android:padding="8dp">
     android:layout_height="wrap_content"
     android:text="Observation Name"
     android:textColor="@color/black"
-    android:textSize="13sp" />
+    android:textStyle="bold"
+    android:textSize="13sp"
+    android:layout_marginBottom="2dp"
+    />
 
 <!-- Observation Date -->
 <TextView
@@ -30,6 +33,7 @@ android:padding="8dp">
     android:layout_height="wrap_content"
     android:text="Observation Date"
     android:textColor="@color/gray"
+    android:layout_marginBottom="2dp"
     android:textSize="13sp" />
 
 <!-- Observation Comments -->
@@ -39,6 +43,8 @@ android:padding="8dp">
     android:layout_height="wrap_content"
     android:text="Observation Comments"
     android:textColor="@color/gray"
+    android:textStyle="italic"
+    android:layout_marginBottom="2dp"
     android:textSize="13sp" />
 
 </LinearLayout>
