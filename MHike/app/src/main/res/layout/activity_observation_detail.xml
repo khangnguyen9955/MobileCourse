@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    tools:context=".ObservationDetail">
+
+    <!-- Observation Name -->
+    <TextView
+        android:id="@+id/textViewObservationNameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observation: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewObservationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observation Name"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Observation Date -->
+    <TextView
+        android:id="@+id/textViewObservationDateLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewObservationDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="01 Jan 2023"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Observation Comments -->
+    <TextView
+        android:id="@+id/textViewObservationCommentsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comment: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewObservationComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observation Comments"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>
