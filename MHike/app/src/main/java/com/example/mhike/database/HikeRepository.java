@@ -181,7 +181,6 @@ public class HikeRepository implements QueryContract.HikeRepository {
                     selectionArgs
             );
         } catch (SQLException e) {
-            // Handle the exception, e.g., log or display an error message
         } finally {
             database.close();
         }
@@ -189,22 +188,38 @@ public class HikeRepository implements QueryContract.HikeRepository {
         return rowsUpdated;
     }
 
-    @Override
     public void deleteHike(int hikeId) {
-        database = dbHelper.getWritableDatabase();
-        String selection = TableContract.HikeEntry._ID + " = ?";
-        String[] selectionArgs = {String.valueOf(hikeId)};
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        String selectionHike = TableContract.HikeEntry._ID + " = ?";
+        String[] selectionArgsHike = {String.valueOf(hikeId)};
+
+        deleteObservationsForHike(hikeId, database);
 
         try {
             database.delete(
                     TableContract.HIKES_TABLE_NAME,
-                    selection,
-                    selectionArgs
+                    selectionHike,
+                    selectionArgsHike
             );
         } catch (SQLException e) {
-            // Handle the exception, e.g., log or display an error message
+            e.printStackTrace();
         } finally {
             database.close();
+        }
+    }
+
+    private void deleteObservationsForHike(int hikeId, SQLiteDatabase database) {
+        String selectionObservations = TableContract.ObservationEntry.COLUMN_HIKE_ID + " = ?";
+        String[] selectionArgsObservations = {String.valueOf(hikeId)};
+
+        try {
+            database.delete(
+                    TableContract.OBSERVATIONS_TABLE_NAME,
+                    selectionObservations,
+                    selectionArgsObservations
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
