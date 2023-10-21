@@ -60,7 +60,6 @@ public class CreateObservation extends AppCompatActivity {
             }
         });
 
-        // Set up a click listener for the "Choose Date" button
         buttonChooseObservationDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +67,6 @@ public class CreateObservation extends AppCompatActivity {
             }
         });
 
-        // Set up a click listener for the "Cancel" button
         Button buttonCancel = findViewById(R.id.buttonCancel);
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override

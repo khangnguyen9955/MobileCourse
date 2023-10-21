@@ -1,6 +1,7 @@
 package com.example.mhike;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mhike.database.HikeRepository;
@@ -43,6 +46,7 @@ public class CreateHike extends AppCompatActivity {
     private byte[] imageBlob;
     private static final int PICK_IMAGE_REQUEST = 1;
     private float hikeRating = 0.0f;
+    private ImageView imageViewHike;
     private HikeRepository hikeRepository; // Declare the HikeRepository instance variable
 
     @Override
@@ -68,7 +72,7 @@ public class CreateHike extends AppCompatActivity {
         createTextDescription = findViewById(R.id.createTextDescription);
         buttonChooseDate = findViewById(R.id.buttonChooseDate);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
-
+    imageViewHike = findViewById(R.id.imageViewUploaded);
         buttonUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,16 +132,38 @@ public class CreateHike extends AppCompatActivity {
             newHike.setDescription(description);
             newHike.setImageBlob(imageBlob);
             newHike.setRating(hikeRating);
-            long hikeId = hikeRepository.insertHike(newHike);
-            if (hikeId > -1) {
-                Toast.makeText(CreateHike.this, "Saved new hike!" , Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CreateHike.this, Feed.class);
-                startActivity(intent);
-            } else {
-                Log.e("HikeInsertion", "Failed to save hike to the database. Hike ID: " + hikeId);
-                Toast.makeText(CreateHike.this, "Failed to save hike", Toast.LENGTH_SHORT).show();
-            }
+
+
+            StringBuilder message = new StringBuilder();
+            message.append("Hike Name: ").append(hikeName).append("\n");
+            message.append("Location: ").append(location).append("\n");
+            message.append("Date: ").append(date).append("\n");
+            message.append("Parking Available: ").append(parkingAvailable ? "Yes" : "No").append("\n");
+            message.append("Length: ").append(length).append("\n");
+            message.append("Difficulty: ").append(difficulty).append("\n");
+            message.append("Image: ").append(imageBlob != null ? "Yes" : "No").append("\n");
+            message.append("Description: ").append(description).append("\n");
+            message.append("Rating: ").append(hikeRating);
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Save")
+                    .setMessage(message.toString())
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            long hikeId = hikeRepository.insertHike(newHike);
+                            if (hikeId > -1) {
+                                Toast.makeText(CreateHike.this, "Saved new hike!" , Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(CreateHike.this, Feed.class);
+                                startActivity(intent);
+                            } else {
+                                Log.e("HikeInsertion", "Failed to save hike to the database. Hike ID: " + hikeId);
+                                Toast.makeText(CreateHike.this, "Failed to save hike", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         }
+
     }
     private void onCancelClicked() {
         Intent intent = new Intent(CreateHike.this, Feed.class);
@@ -235,16 +261,13 @@ public class CreateHike extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Get the selected image URI
             Uri imageUri = data.getData();
 
-            // Convert the selected image to a byte array
             try {
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 imageBlob = getBytes(inputStream);
-                // Now you have the image as a byte array (imageBlob)
-                // You can save this byte array to the database
-                // TODO: Insert the 'imageBlob' into the database when saving the hike
+                imageViewHike.setVisibility(View.VISIBLE);
+                imageViewHike.setImageURI(imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
