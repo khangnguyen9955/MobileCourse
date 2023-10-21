@@ -1,5 +1,6 @@
 package com.example.mhike;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +46,7 @@ public class HikeDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Hike Detail");
+        setTitle("Hike Details");
 
         setContentView(R.layout.item_hike);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,7 +63,7 @@ public class HikeDetail extends AppCompatActivity {
         hikeDescriptionTextView = findViewById(R.id.textViewHikeDescription);
         hikeParkingStatus = findViewById(R.id.textViewHikeParkingStatus);
         hikeRatingTextView = findViewById(R.id.textViewHikeRating);
-        // Retrieve data passed from HikeAdapter
+
         Intent intent = getIntent();
         hikeId = intent.getIntExtra("hikeId", -1);
 
@@ -71,9 +74,7 @@ public class HikeDetail extends AppCompatActivity {
         loadObservationsForHike(hikeId);
 
         if (hikeId != -1) {
-            // Fetch the details of the selected hike based on the hikeId
             Hike selectedHike = hikeRepository.getHike(hikeId);
-            Log.i("HikeDetail", "Hike: " + selectedHike.getName());
             updateUI(selectedHike);
 
             Button addObservationButton = findViewById(R.id.addObservationButton);
@@ -85,8 +86,7 @@ public class HikeDetail extends AppCompatActivity {
                 }
             });
         } else {
-            // Handle the case where hikeId is not valid
-            // For example, show an error message or navigate back to the previous screen
+           Toast.makeText(this, "Hike not found", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
@@ -107,8 +107,19 @@ public class HikeDetail extends AppCompatActivity {
             startActivity(editIntent);
             return true;
         } else if (id == R.id.action_delete) {
-            // Handle the delete action
-            // Implement deletion logic here, such as displaying a confirmation dialog
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Deletion")
+                    .setMessage("Are you sure you want to delete this hike and its observations?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            hikeRepository.deleteHike(hikeId);
+                            Toast.makeText(HikeDetail.this, "Hike deleted", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(HikeDetail.this,Feed.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
             return true;
         }
 
@@ -117,7 +128,6 @@ public class HikeDetail extends AppCompatActivity {
 
 
 
-    // Update the UI with the selected hike data
     private void updateUI(Hike selectedHike) {
         Log.i("HikeDetail", "updateUI");
         if (selectedHike != null) {
@@ -142,12 +152,11 @@ public class HikeDetail extends AppCompatActivity {
                         .load(imageBlob)
                         .into(hikeImageView);
             } else {
-                // Load a default image when imageBlob is null
                 ImageView hikeImageView = findViewById(R.id.imageViewBackground);
                 hikeImageView.setImageResource(R.drawable.default_image_background);
             }
         } else {
-            // Handle the case where the selectedHike is null
+            Toast.makeText(this, "Hike not found", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -157,17 +166,13 @@ public class HikeDetail extends AppCompatActivity {
     }
 
     private void createObservation(int hikeId) {
-        // Open the ObservationActivity and pass the hikeId if needed
         Intent observationIntent = new Intent(HikeDetail.this, CreateObservation.class);
         observationIntent.putExtra("hikeId", hikeId);
         startActivity(observationIntent);
     }
 
     private void loadObservationsForHike(int hikeId) {
-        Log.i("HikeDetail", "loadObservationsForHike");
-        Log.i("HikeDetail", "hikeId: " + hikeId);
         List<Observation> observations = observationRepository.getObservationsForHike(hikeId);
-        Log.i("HikeDetail", "observations: " + observations.size());
         observationAdapter.setObservations(observations);
         observationAdapter.notifyDataSetChanged();
     }
