@@ -89,9 +89,11 @@ public class EditHike extends AppCompatActivity {
         if (selectedHike != null) {
             hikeNameEditText.setText(selectedHike.getName());
             hikeLocationEditText.setText(selectedHike.getLocation());
-            hikeLengthEditText.setText(selectedHike.getLength());
+            float length = selectedHike.getLength();
+            String lengthString = String.valueOf(length);
+            hikeLengthEditText.setText(lengthString);
             imageBlob = selectedHike.getImageBlob();
-            if(imageBlob != null || imageBlob.length > 0){
+            if(imageBlob != null ){
                 Log.i("EditHike", "Image Blob: " + imageBlob.length);
                 Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
                 hikeImageView.setVisibility(View.VISIBLE);
@@ -121,7 +123,7 @@ public class EditHike extends AppCompatActivity {
 
             hikeDescriptionEditText.setText(selectedHike.getDescription());
 
-            if (selectedHike.getImageBlob() != null || selectedHike.getImageBlob().length > 0) {
+            if (selectedHike.getImageBlob() != null) {
                 editImageButton.setText("Edit Image");
             }
         }
@@ -148,7 +150,8 @@ public class EditHike extends AppCompatActivity {
                 if (validateInput()) {
                     String hikeName = hikeNameEditText.getText().toString();
                     String hikeLocation = hikeLocationEditText.getText().toString();
-                    String hikeLength = hikeLengthEditText.getText().toString();
+                    String hikeLengthText  = hikeLengthEditText.getText().toString();
+                    float hikeLength = Float.parseFloat(hikeLengthText);
                     float hikeRating = hikeRatingBar.getRating();
                     int selectedDifficultyId = radioGroupDifficulty.getCheckedRadioButtonId();
                     RadioButton selectedDifficultyRadioButton = findViewById(selectedDifficultyId);
@@ -254,7 +257,7 @@ public class EditHike extends AppCompatActivity {
         }
     }
 
-    private void updateHike(int hikeId, String name, String location, String length, String difficulty, String description, boolean parkingAvailable, Date date, byte[] imageBlob, float rating) {
+    private void updateHike(int hikeId, String name, String location, float length, String difficulty, String description, boolean parkingAvailable, Date date, byte[] imageBlob, float rating) {
         Hike hike = hikeRepository.getHike(hikeId);
         if (hike != null) {
             hike.setName(name);
@@ -283,7 +286,7 @@ public class EditHike extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
                         datePickerDate.updateDate(selectedYear, selectedMonth, selectedDay);
                         String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
-                        TextView dateDisplay = findViewById(R.id.dateDisplay);
+                        TextView dateDisplay = findViewById(R.id.editDateDisplay);
                         dateDisplay.setText(selectedDate);
                         dateDisplay.setVisibility(View.VISIBLE);
                     }
