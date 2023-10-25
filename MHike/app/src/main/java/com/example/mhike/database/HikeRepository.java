@@ -10,6 +10,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.mhike.HikeQueryOptions;
 import com.example.mhike.database.DatabaseHelper;
 import com.example.mhike.database.TableContract;
 import com.example.mhike.models.Hike;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 
 public class HikeRepository implements QueryContract.HikeRepository {
 
@@ -247,7 +249,7 @@ public class HikeRepository implements QueryContract.HikeRepository {
         float hikeRating = cursor.getFloat(ratingIndex);
 
         boolean parkingAvailable = cursor.getInt(parkingIndex) == 1; // Assuming 1 means "Yes" and 0 means "No"
-        String hikeLength = cursor.getString(lengthIndex);
+        float hikeLength = cursor.getFloat(lengthIndex);
         String hikeDifficulty = cursor.getString(difficultyIndex);
         String hikeDescription = cursor.getString(descriptionIndex);
         byte[] imageBlob = cursor.getBlob(imageBlobIndex);
@@ -264,6 +266,121 @@ public class HikeRepository implements QueryContract.HikeRepository {
         hike.setRating(hikeRating);
         return hike;
     }
+
+    public List<Hike> getFilteredHikes(HikeQueryOptions queryOptions, String query) {
+        database = dbHelper.getReadableDatabase();
+        List<Hike> hikeList = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            String[] projection = {
+                    TableContract.HikeEntry._ID,
+                    TableContract.HikeEntry.COLUMN_NAME,
+                    TableContract.HikeEntry.COLUMN_LOCATION,
+                    TableContract.HikeEntry.COLUMN_DATE,
+                    TableContract.HikeEntry.COLUMN_PARKING_AVAILABLE,
+                    TableContract.HikeEntry.COLUMN_LENGTH,
+                    TableContract.HikeEntry.COLUMN_DIFFICULTY,
+                    TableContract.HikeEntry.COLUMN_DESCRIPTION,
+                    TableContract.HikeEntry.COLUMN_IMAGE_BLOB,
+                    TableContract.HikeEntry.COLUMN_RATING
+            };
+
+            String selection = constructFilterSelection(queryOptions, query);
+            String[] selectionArgs = constructSelectionArgs(queryOptions, query);
+
+            String orderBy = constructOrderByClause(queryOptions);
+
+            cursor = database.query(
+                    TableContract.HIKES_TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    orderBy
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Hike hike = cursorToHike(cursor);
+                    hikeList.add(hike);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            database.close();
+        }
+
+        return hikeList;
+    }
+
+    // Helper method to construct the WHERE clause for filtering
+    private String constructFilterSelection(HikeQueryOptions queryOptions, String query) {
+        List<String> conditions = new ArrayList<>();
+
+        if (queryOptions.isFilterByName()) {
+            conditions.add(TableContract.HikeEntry.COLUMN_NAME + " LIKE ? COLLATE NOCASE");
+        }
+        if (queryOptions.isFilterByLocation()) {
+            conditions.add(TableContract.HikeEntry.COLUMN_LOCATION + " LIKE ? COLLATE NOCASE");
+        }
+
+        if (!queryOptions.isFilterByName() && !queryOptions.isFilterByLocation()) {
+            conditions.add(TableContract.HikeEntry.COLUMN_NAME + " LIKE ? COLLATE NOCASE");
+        }
+
+        return conditions.isEmpty() ? null : "(" + String.join(" OR ", conditions) + ")";
+    }
+
+    private String[] constructSelectionArgs(HikeQueryOptions queryOptions, String query) {
+        List<String> argsList = new ArrayList<>();
+
+        if (queryOptions.isFilterByName()) {
+            argsList.add("%" + query + "%");
+        }
+        if (queryOptions.isFilterByLocation()) {
+            argsList.add("%" + query + "%");
+        }
+
+        if(!queryOptions.isFilterByName() && !queryOptions.isFilterByLocation()) {
+            argsList.add("%" + query + "%");
+        }
+
+        return argsList.toArray(new String[0]);
+    }
+
+
+    private String constructOrderByClause(HikeQueryOptions queryOptions) {
+        List<String> orderByList = new ArrayList<>();
+        Stack<String> stack = queryOptions.getStack();
+        for (String sortField : stack){
+            if(sortField.equals("date desc")){
+                orderByList.add(TableContract.HikeEntry.COLUMN_DATE + " DESC");
+            }else if (sortField.equals("date asc")){
+                orderByList.add(TableContract.HikeEntry.COLUMN_DATE + " ASC");
+            }
+            if(sortField.equals("length desc")) {
+                orderByList.add(TableContract.HikeEntry.COLUMN_LENGTH+ " DESC");
+            }
+            else if (sortField.equals("length asc")) {
+                orderByList.add(TableContract.HikeEntry.COLUMN_LENGTH+ " ASC");
+            }
+            if (sortField.equals("rating desc")){
+                orderByList.add(TableContract.HikeEntry.COLUMN_RATING + " DESC");
+            }
+            else if(sortField.equals("rating asc")){
+                orderByList.add(TableContract.HikeEntry.COLUMN_RATING + " ASC");
+            }
+        }
+        queryOptions.clearStack();
+        return String.join(", ", orderByList);
+    }
+
+
+
 
     private String formatDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
