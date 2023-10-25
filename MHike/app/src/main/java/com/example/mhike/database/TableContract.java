@@ -28,7 +28,7 @@ public final class TableContract {
                         HikeEntry.COLUMN_LOCATION + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_DATE + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_PARKING_AVAILABLE + " INTEGER NOT NULL," +
-                        HikeEntry.COLUMN_LENGTH + " TEXT NOT NULL," +
+                        HikeEntry.COLUMN_LENGTH + " REAL NOT NULL," +
                         HikeEntry.COLUMN_DIFFICULTY + " TEXT NOT NULL," +
                         HikeEntry.COLUMN_DESCRIPTION + " TEXT," +
                         HikeEntry.COLUMN_IMAGE_BLOB + " BLOB, " +
