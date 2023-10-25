@@ -8,7 +8,7 @@ public class Hike {
     private String location;
     private Date date;
     private boolean parkingAvailable;
-    private String length;
+    private float length;
     private String difficulty;
     private String description;
     private byte[] imageBlob;
@@ -18,7 +18,7 @@ public class Hike {
 
     public Hike(){}
 
-    public Hike(int id, String name, String location,Date date, boolean parkingAvailable, String length, String difficulty, String description, byte[] imageBlob, float rating){
+    public Hike(int id, String name, String location,Date date, boolean parkingAvailable, float length, String difficulty, String description, byte[] imageBlob, float rating){
         this.id = id;
         this.name = name;
         this.location = location;
@@ -65,7 +65,7 @@ public class Hike {
 
     }
 
-    public String getLength() {
+    public float getLength() {
         return length;
     }
 
@@ -93,7 +93,7 @@ public class Hike {
         this.id = id;
     }
 
-    public void setLength(String length) {
+    public void setLength(float length) {
         this.length = length;
     }
 
