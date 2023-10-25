@@ -117,7 +117,8 @@ public class CreateHike extends AppCompatActivity {
             Date date = calendar.getTime();
             int selectedParkingRadioButtonId = radioGroupParkingAvailable.getCheckedRadioButtonId();
             boolean parkingAvailable = selectedParkingRadioButtonId == R.id.radioButtonYes;
-            String length = createTextLength.getText().toString();
+            String lengthText = createTextLength.getText().toString();
+            float length = Float.parseFloat(lengthText);
             int selectedRadioButtonId = radioGroupDifficulty.getCheckedRadioButtonId();
             RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
             String difficulty = selectedRadioButton.getText().toString();
