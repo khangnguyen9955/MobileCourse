@@ -1,0 +1,48 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/MHike.csproj": {}
+  },
+  "projects": {
+    "/Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/MHike.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/MHike.csproj",
+        "projectName": "MHike",
+        "projectPath": "/Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/MHike.csproj",
+        "packagesPath": "/Users/khangnguyen9955/.nuget/packages/",
+        "outputPath": "/Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/obj/",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "/Users/khangnguyen9955/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "monoandroid12.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "monoandroid12.0": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "monoandroid12.0": {
+          "dependencies": {
+            "Xamarin.Android.Support.Design": {
+              "target": "Package",
+              "version": "[28.0.0.3, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.141-beta, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}
