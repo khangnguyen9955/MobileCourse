@@ -51,7 +51,6 @@ public class HikeDetail extends AppCompatActivity {
         setContentView(R.layout.item_hike);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Initialize the repository
         hikeRepository = new HikeRepository(this);
         observationRepository = new ObservationRepository(this);
 
@@ -81,7 +80,6 @@ public class HikeDetail extends AppCompatActivity {
             addObservationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Handle the button click to create an observation
                     createObservation(selectedHike.getId());
                 }
             });

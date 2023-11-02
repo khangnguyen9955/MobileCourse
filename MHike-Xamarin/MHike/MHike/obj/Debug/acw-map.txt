@@ -1,6 +1,9 @@
 MHike.CreateHikeActivity, MHike;crc644c298c68cce0b6ea.CreateHikeActivity
 MHike.CreateHikeActivity;crc644c298c68cce0b6ea.CreateHikeActivity
 mhike.CreateHikeActivity;crc644c298c68cce0b6ea.CreateHikeActivity
+MHike.HikeAdapter, MHike;crc644c298c68cce0b6ea.HikeAdapter
+MHike.HikeAdapter;crc644c298c68cce0b6ea.HikeAdapter
+mhike.HikeAdapter;crc644c298c68cce0b6ea.HikeAdapter
 MHike.GetHikeDetailActivity, MHike;crc644c298c68cce0b6ea.GetHikeDetailActivity
 MHike.GetHikeDetailActivity;crc644c298c68cce0b6ea.GetHikeDetailActivity
 mhike.GetHikeDetailActivity;crc644c298c68cce0b6ea.GetHikeDetailActivity

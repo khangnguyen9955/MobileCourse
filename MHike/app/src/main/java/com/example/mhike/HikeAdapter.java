@@ -48,15 +48,13 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
         holder.textViewHikeDate.setText(formattedDate);
         holder.textViewLength.setText(currentHike.getLength() + " km");
         holder.textViewDifficulty.setText(currentHike.getDifficulty());
-        // Check if there is an image associated with the hike
         byte[] imageBlob = currentHike.getImageBlob();
         if (imageBlob != null) {
-            // Load the image from the byte array
             Glide.with(context)
                     .load(imageBlob)
                     .into(holder.imageViewBackground);
         } else {
-            // Load a default image when imageBlob is null
+
             holder.imageViewBackground.setImageResource(R.drawable.default_image_background);
         }
 
@@ -94,7 +92,6 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
             textViewHikeDate = itemView.findViewById(R.id.textViewHikeDate);
             imageViewBackground = itemView.findViewById(R.id.imageViewBackground);
             textViewHikeRating = itemView.findViewById(R.id.textViewHikeRating);
-            // Initialize other views here...
         }
     }
 }

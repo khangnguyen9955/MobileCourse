@@ -20,7 +20,6 @@ public class HikeQueryOptions {
         sortingFieldsStack = new Stack<>();
     }
 
-    // Include getters and setters for each option
     public boolean isDateAscending() {
         return isDateAscending;
     }

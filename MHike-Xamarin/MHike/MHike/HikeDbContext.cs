@@ -16,6 +16,7 @@ namespace MHike
         {
             database = new SQLiteConnection(dbPath);
             database.CreateTable<Hike>();
+            // ResetDatabase();
         }
 
         public List<Hike> GetAllHikes()
@@ -42,11 +43,29 @@ namespace MHike
         {
             return database.Delete(hike);
         }
+        public List<Hike> SearchHikes(string query)
+        {
+            return database.Table<Hike>()
+                .Where(hike => hike.Name.Contains(query) || hike.Location.Contains(query))
+                .ToList();
+        }
 
         public void DeleteAllHikeDetails()
         {
             database.DeleteAll<Hike>();
         }
+        public void ResetDatabase()
+        {
+            database?.Close();
+            database = null;
+
+            File.Delete(dbPath);
+
+            database = new SQLiteConnection(dbPath);
+
+            database.CreateTable<Hike>();
+        }
+        
     }
 
 }

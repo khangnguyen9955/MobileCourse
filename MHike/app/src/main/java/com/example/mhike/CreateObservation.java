@@ -45,7 +45,6 @@ public class CreateObservation extends AppCompatActivity {
         saveObservationButton = findViewById(R.id.buttonSaveObservation);
         buttonChooseObservationDate = findViewById(R.id.buttonChooseObservationDate);
 
-        // Retrieve the hikeId from the intent (you need to implement this part)
         hikeId = getIntent().getIntExtra("hikeId", -1);
 
         saveObservationButton.setOnClickListener(new View.OnClickListener() {

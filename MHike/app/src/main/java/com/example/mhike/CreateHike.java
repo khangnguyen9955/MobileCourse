@@ -47,7 +47,7 @@ public class CreateHike extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private float hikeRating = 0.0f;
     private ImageView imageViewHike;
-    private HikeRepository hikeRepository; // Declare the HikeRepository instance variable
+    private HikeRepository hikeRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +66,13 @@ public class CreateHike extends AppCompatActivity {
         createTextHikeName = findViewById(R.id.createTextHikeName);
         createTextLocation = findViewById(R.id.createTextLocation);
         datePickerDate = findViewById(R.id.datePickerHike);
-        radioGroupParkingAvailable = findViewById(R.id.radioGroupParkingAvailable); // Add this line
+        radioGroupParkingAvailable = findViewById(R.id.radioGroupParkingAvailable);
         createTextLength = findViewById(R.id.createTextLength);
         radioGroupDifficulty = findViewById(R.id.radioGroupDifficulty);
         createTextDescription = findViewById(R.id.createTextDescription);
         buttonChooseDate = findViewById(R.id.buttonChooseDate);
         buttonUploadImage = findViewById(R.id.buttonUploadImage);
-    imageViewHike = findViewById(R.id.imageViewUploaded);
+        imageViewHike = findViewById(R.id.imageViewUploaded);
         buttonUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +174,6 @@ public class CreateHike extends AppCompatActivity {
         int year = datePickerDate.getYear();
         int month = datePickerDate.getMonth();
         int day = datePickerDate.getDayOfMonth();
-        TextView dateDisplay = findViewById(R.id.dateDisplay);
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 new DatePickerDialog.OnDateSetListener() {

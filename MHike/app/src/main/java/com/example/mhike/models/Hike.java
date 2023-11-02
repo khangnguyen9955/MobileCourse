@@ -16,8 +16,6 @@ public class Hike {
     private Date updatedAt;
     private float rating;
 
-    public Hike(){}
-
     public Hike(int id, String name, String location,Date date, boolean parkingAvailable, float length, String difficulty, String description, byte[] imageBlob, float rating){
         this.id = id;
         this.name = name;
@@ -32,6 +30,9 @@ public class Hike {
         this.updatedAt = new Date();
         this.rating = rating;
     }
+
+    public Hike(){}
+
     public float getRating() {
         return rating;
     }

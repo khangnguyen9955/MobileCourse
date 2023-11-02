@@ -1,8 +1,8 @@
-using System;
-using System.IO;
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using Android.Content;
+using System;
 using MHike.model;
 
 namespace MHike
@@ -12,6 +12,18 @@ namespace MHike
     {
         private EditText updateHikeNameEditText;
         private EditText updateHikeLocationEditText;
+        private TextView updateHikeDateTextView;
+        private RadioGroup updateParkingRadioGroup;
+        private EditText updateHikeLengthEditText;
+        private RadioButton updateEasyRadioButton;
+        private RadioButton updateMediumRadioButton;
+        private DatePicker updateDatePicker; 
+        private RadioButton updateHardRadioButton;
+        private EditText updateHikeDescriptionEditText;
+        private Button updateHikeButton;
+        private Button updateChooseDateButton;
+        private DateTime selectedDate;
+        private int hikeId;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -20,52 +32,163 @@ namespace MHike
 
             updateHikeNameEditText = FindViewById<EditText>(Resource.Id.updateHikeNameEditText);
             updateHikeLocationEditText = FindViewById<EditText>(Resource.Id.updateHikeLocationEditText);
-            // Initialize other EditText fields
+            updateHikeDateTextView = FindViewById<TextView>(Resource.Id.updateHikeDateTextView);
+            updateParkingRadioGroup = FindViewById<RadioGroup>(Resource.Id.updateParkingRadioGroup);
+            updateHikeLengthEditText = FindViewById<EditText>(Resource.Id.updateHikeLengthEditText);
+            updateEasyRadioButton = FindViewById<RadioButton>(Resource.Id.updateEasyRadioButton);
+            updateMediumRadioButton = FindViewById<RadioButton>(Resource.Id.updateMediumRadioButton);
+            updateDatePicker = FindViewById<DatePicker>(Resource.Id.updateHikeDatePicker); 
+            updateHardRadioButton = FindViewById<RadioButton>(Resource.Id.updateHardRadioButton);
+            updateHikeDescriptionEditText = FindViewById<EditText>(Resource.Id.updateHikeDescriptionEditText);
+            updateHikeButton = FindViewById<Button>(Resource.Id.updateHikeButton);
+            updateChooseDateButton = FindViewById<Button>(Resource.Id.updateChooseDateButton);
 
-            Button updateHikeButton = FindViewById<Button>(Resource.Id.updateHikeButton);
+            updateChooseDateButton.Click += UpdateChooseDateButton_Click;
             updateHikeButton.Click += UpdateHikeButton_Click;
 
-            int hikeId = Intent.GetIntExtra("HikeId", -1);
+            hikeId = Intent.GetIntExtra("HikeId", -1);
 
             HikeDbContext db = new HikeDbContext();
             Hike hike = db.GetHikeById(hikeId);
 
             if (hike != null)
             {
-                // Populate EditText fields with existing hike details
                 updateHikeNameEditText.Text = hike.Name;
                 updateHikeLocationEditText.Text = hike.Location;
-                // Populate other EditText fields with existing hike details
+                updateDatePicker.UpdateDate(hike.Date.Year, hike.Date.Month - 1, hike.Date.Day);
+                selectedDate = new DateTime(updateDatePicker.Year, updateDatePicker.Month + 1, updateDatePicker.DayOfMonth);
+                updateHikeDateTextView.Text = selectedDate.ToShortDateString();
+                updateHikeDateTextView.Visibility = Android.Views.ViewStates.Visible;
+                updateParkingRadioGroup.Check(hike.ParkingAvailable ? Resource.Id.updateParkingYesRadioButton : Resource.Id.updateParkingNoRadioButton);
+                updateHikeLengthEditText.Text = hike.Length.ToString();
+                updateEasyRadioButton.Checked = hike.DifficultyLevel == "Easy";
+                updateMediumRadioButton.Checked = hike.DifficultyLevel == "Medium";
+                updateHardRadioButton.Checked = hike.DifficultyLevel == "Hard";
+                updateHikeDescriptionEditText.Text = hike.Description;
             }
             else
             {
-                // Handle case where the hike with the specified ID is not found
+                Toast.MakeText(this, "Hike not found", ToastLength.Short).Show();
             }
         }
 
+        private void UpdateChooseDateButton_Click(object sender, EventArgs e)
+        {
+            DatePickerDialog datepicker = new DatePickerDialog(this, OnDateSet, selectedDate.Year, selectedDate.Month - 1, selectedDate.Day);
+            datepicker.Show();
+        }
+
+        private void OnDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
+        {
+            selectedDate = e.Date;
+            updateDatePicker.UpdateDate(selectedDate.Year, selectedDate.Month - 1, selectedDate.Day);
+            updateHikeDateTextView.Text = selectedDate.ToShortDateString();
+            updateHikeDateTextView.Visibility = Android.Views.ViewStates.Visible;
+        }
+
+
         private void UpdateHikeButton_Click(object sender, EventArgs e)
         {
-            string name = updateHikeNameEditText.Text;
-            string location = updateHikeLocationEditText.Text;
-            // Retrieve values from other EditText fields
-
-            Hike hike = new Hike
-            {
-                Name = name,
-                Location = location,
-                // Set other properties for the hike
-            };
-
+            string hikeName = updateHikeNameEditText.Text;
+            string hikeLocation = updateHikeLocationEditText.Text;
+            int parkingSelected = updateParkingRadioGroup.CheckedRadioButtonId;
+            bool parkingAvailable = parkingSelected == Resource.Id.updateParkingYesRadioButton;
+            string hikeLengthString = updateHikeLengthEditText.Text;
+            string difficultyLevel = GetSelectedDifficultyLevel();
+            string description = updateHikeDescriptionEditText.Text;
             HikeDbContext db = new HikeDbContext();
-            int rowsAffected = db.UpdateHikeDetail(hike);
 
-            if (rowsAffected > 0)
+            if (validateInput(hikeName, hikeLocation, difficultyLevel, hikeLengthString))
             {
-                // Handle successful hike update
+                float hikeLength = float.Parse(hikeLengthString);
+                Hike hike = db.GetHikeById(hikeId);
+                hike.Date = selectedDate;
+                hike.Name = hikeName;
+                hike.Location = hikeLocation;
+                hike.ParkingAvailable = parkingAvailable;
+                hike.Length = hikeLength;
+                hike.DifficultyLevel = difficultyLevel;
+                hike.Description = description;
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetTitle("Confirm Hike Details");
+                alert.SetMessage("Hike Name: " + hikeName + "\nHike Location: " + hikeLocation + "\nDate: " + selectedDate.ToShortDateString() +
+                                 "\nParking Available: " + (parkingAvailable ? "Yes" : "No") + "\nLength: " + hikeLength + "\nDifficulty Level: " +
+                                 difficultyLevel + "\nDescription: " + description);
+                alert.SetPositiveButton("Confirm", (senderAlert, args) =>
+                {
+                    db.UpdateHikeDetail(hike);
+                    Intent editIntent = new Intent(this, typeof(GetHikeDetailActivity));
+                    editIntent.PutExtra("HikeId", hikeId);
+                    StartActivity(editIntent);
+                });
+                alert.SetNegativeButton("Cancel", (senderAlert, args) => { });
+                Dialog dialog = alert.Create();
+                dialog.Show();
+            }
+        }
+
+        private bool validateInput(string hikeName, string hikeLocation, string difficultyLevel, string hikeLengthString)
+        {
+            int parkingAvailable = updateParkingRadioGroup.CheckedRadioButtonId;
+            bool valid = true;
+
+            if (string.IsNullOrEmpty(hikeName))
+            {
+                Toast.MakeText(this, "Please enter a hike name.", ToastLength.Short).Show();
+                valid = false;
+            }
+
+            if (string.IsNullOrEmpty(hikeLocation))
+            {
+                Toast.MakeText(this, "Please enter a hike location.", ToastLength.Short).Show();
+                valid = false;
+            }
+
+            if (selectedDate == DateTime.MinValue)
+            {
+                Toast.MakeText(this, "Please select a hike date.", ToastLength.Short).Show();
+                valid = false;
+            }
+
+            if (string.IsNullOrEmpty(hikeLengthString))
+            {
+                Toast.MakeText(this, "Please enter a hike length.", ToastLength.Short).Show();
+                valid = false;
+            }
+
+            if (parkingAvailable == -1)
+            {
+                Toast.MakeText(this, "Please select if parking is available.", ToastLength.Short).Show();
+                valid = false;
+            }
+
+            if (string.IsNullOrEmpty(difficultyLevel))
+            {
+                Toast.MakeText(this, "Please select a difficulty level.", ToastLength.Short).Show();
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        private string GetSelectedDifficultyLevel()
+        {
+            if (updateEasyRadioButton.Checked)
+            {
+                return "Easy";
+            }
+            else if (updateMediumRadioButton.Checked)
+            {
+                return "Medium";
+            }
+            else if (updateHardRadioButton.Checked)
+            {
+                return "Hard";
             }
             else
             {
-                // Handle case where hike update failed
+                return string.Empty;
             }
         }
     }

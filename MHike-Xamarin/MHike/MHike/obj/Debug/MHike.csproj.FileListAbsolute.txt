@@ -240,3 +240,5 @@
 /Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/obj/Debug/stamp/_GenerateJavaStubs.stamp
 /Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/obj/Debug/stamp/_GeneratePackageManagerJava.stamp
 /Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/obj/Debug/stamp/_ResolveLibraryProjectImports.stamp
+/Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/obj/Debug/res/layout/hike_item.xml
+/Users/khangnguyen9955/Desktop/Comp1786/MHike-Xamarin/MHike/MHike/obj/Debug/android/src/crc644c298c68cce0b6ea/HikeAdapter.java

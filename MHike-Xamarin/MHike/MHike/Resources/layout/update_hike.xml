@@ -3,22 +3,131 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hike Name" />
+
     <EditText
             android:id="@+id/updateHikeNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Hike Name" />
+            android:hint="Enter Hike Name" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hike Location" />
 
     <EditText
             android:id="@+id/updateHikeLocationEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Hike Location" />
+            android:hint="Enter Hike Location" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date" />
+    
+    <DatePicker 
+            android:id="@+id/updateHikeDatePicker"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:visibility="gone"
+    />
+        
+    <TextView
+            android:id="@+id/updateHikeDateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Selected Date"
+            android:visibility="gone" />
+
+    <Button
+            android:id="@+id/updateChooseDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Date" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Parking Available" />
+
+    <RadioGroup
+            android:id="@+id/updateParkingRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <RadioButton
+                android:id="@+id/updateParkingYesRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes" />
+
+        <RadioButton
+                android:id="@+id/updateParkingNoRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No" />
+    </RadioGroup>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Difficulty Level" />
+
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <RadioButton
+                android:id="@+id/updateEasyRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Easy" />
+
+        <RadioButton
+                android:id="@+id/updateMediumRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium" />
+
+        <RadioButton
+                android:id="@+id/updateHardRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hard" />
+    </RadioGroup>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Length" />
+
+    <EditText
+            android:id="@+id/updateHikeLengthEditText"
+            android:layout_width="match_parent"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:hint="Enter Length" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description" />
+
+    <EditText
+            android:id="@+id/updateHikeDescriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Description" />
 
     <Button
             android:id="@+id/updateHikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update Hike" />
-
 </LinearLayout>

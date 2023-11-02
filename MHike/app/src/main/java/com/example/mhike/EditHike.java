@@ -113,7 +113,6 @@ public class EditHike extends AppCompatActivity {
                 radioButtonHard.setChecked(true);
             }
 
-            // Check the appropriate radio button based on parking available
             boolean parkingAvailable = selectedHike.isParkingAvailable();
             if (parkingAvailable) {
                 radioButtonYes.setChecked(true);

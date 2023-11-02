@@ -49,7 +49,6 @@ public class Feed extends AppCompatActivity {
     private LinearLayout linearLayoutRating;
     private boolean isPopupShowing = false;
     private HikeQueryOptions queryOptions;
-
     private String currentFilterOption = "Name";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +82,6 @@ public class Feed extends AppCompatActivity {
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Do nothing
             }
 
             @Override
@@ -93,7 +91,6 @@ public class Feed extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Do nothing
             }
         });
         filterIcon.setOnClickListener(new View.OnClickListener() {
@@ -244,7 +241,7 @@ public class Feed extends AppCompatActivity {
     private void filterAndDisplayHikes(String query) {
         hikeList.clear();
         List<Hike> filteredHikes = hikeRepository.getFilteredHikes(queryOptions, query);
-        hikeList.addAll(filteredHikes); // Add the filtered hikes to the list
+        hikeList.addAll(filteredHikes);
         hikeAdapter.notifyDataSetChanged();
     }
 

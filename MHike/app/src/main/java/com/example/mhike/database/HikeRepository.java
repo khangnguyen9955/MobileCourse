@@ -237,18 +237,17 @@ public class HikeRepository implements QueryContract.HikeRepository {
         int difficultyIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_DIFFICULTY);
         int descriptionIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_DESCRIPTION);
         int imageBlobIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_IMAGE_BLOB);
-        int ratingIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_RATING); // Add this line
+        int ratingIndex = cursor.getColumnIndex(TableContract.HikeEntry.COLUMN_RATING);
 
         long hikeId = cursor.getLong(idIndex);
         String hikeName = cursor.getString(nameIndex);
         String hikeLocation = cursor.getString(locationIndex);
 
-        // Parse the date string from the cursor into a Date object
         String dateStr = cursor.getString(dateIndex);
         Date hikeDate = parseDate(dateStr);
         float hikeRating = cursor.getFloat(ratingIndex);
 
-        boolean parkingAvailable = cursor.getInt(parkingIndex) == 1; // Assuming 1 means "Yes" and 0 means "No"
+        boolean parkingAvailable = cursor.getInt(parkingIndex) == 1;
         float hikeLength = cursor.getFloat(lengthIndex);
         String hikeDifficulty = cursor.getString(difficultyIndex);
         String hikeDescription = cursor.getString(descriptionIndex);
@@ -317,7 +316,6 @@ public class HikeRepository implements QueryContract.HikeRepository {
         return hikeList;
     }
 
-    // Helper method to construct the WHERE clause for filtering
     private String constructFilterSelection(HikeQueryOptions queryOptions, String query) {
         List<String> conditions = new ArrayList<>();
 
@@ -327,7 +325,6 @@ public class HikeRepository implements QueryContract.HikeRepository {
         if (queryOptions.isFilterByLocation()) {
             conditions.add(TableContract.HikeEntry.COLUMN_LOCATION + " LIKE ? COLLATE NOCASE");
         }
-
         if (!queryOptions.isFilterByName() && !queryOptions.isFilterByLocation()) {
             conditions.add(TableContract.HikeEntry.COLUMN_NAME + " LIKE ? COLLATE NOCASE");
         }
@@ -344,7 +341,6 @@ public class HikeRepository implements QueryContract.HikeRepository {
         if (queryOptions.isFilterByLocation()) {
             argsList.add("%" + query + "%");
         }
-
         if(!queryOptions.isFilterByName() && !queryOptions.isFilterByLocation()) {
             argsList.add("%" + query + "%");
         }

@@ -11,8 +11,6 @@ public class Observation {
     private Date createdAt;
     private Date updatedAt;
 
-    public Observation(){}
-
     public Observation(int id, int hikeId, String name, Date date, String comments) {
         this.id = id;
         this.hikeId = hikeId;
@@ -22,6 +20,8 @@ public class Observation {
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
+
+    public Observation(){}
     public int getId() {
         return id;
     }

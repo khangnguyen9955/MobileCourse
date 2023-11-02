@@ -56,8 +56,9 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="CreateHikeActivity.cs" />
+        <Compile Include="HikeAdapter.cs" />
         <Compile Include="HikeDetail.cs" />
-        <Compile Include="ListHikes.cs" />
+        <Compile Include="ShowHikesActivity.cs" />
         <Compile Include="HikeDbContext.cs" />
         <Compile Include="model\Hike.cs" />
         <Compile Include="Resources\Resource.Designer.cs"/>
@@ -76,6 +77,7 @@
         <AndroidResource Include="Resources\layout\create_hike.xml" />
         <AndroidResource Include="Resources\layout\feed.xml" />
         <AndroidResource Include="Resources\layout\hike_detail.xml" />
+        <AndroidResource Include="Resources\layout\hike_item.xml" />
         <AndroidResource Include="Resources\layout\update_hike.xml" />
         <AndroidResource Include="Resources\values\colors.xml"/>
         <AndroidResource Include="Resources\values\ic_launcher_background.xml"/>

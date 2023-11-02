@@ -1,5 +1,6 @@
 package com.example.mhike.database;
 
+import com.example.mhike.HikeQueryOptions;
 import com.example.mhike.models.Hike;
 import com.example.mhike.models.Observation;
 
@@ -14,6 +15,7 @@ public final class QueryContract {
         List<Hike> getAllHikes();
         int updateHike(Hike hike);
         void deleteHike(int hikeId);
+        List<Hike> getFilteredHikes(HikeQueryOptions queryOptions, String query);
     }
 
     public interface ObservationRepository {
