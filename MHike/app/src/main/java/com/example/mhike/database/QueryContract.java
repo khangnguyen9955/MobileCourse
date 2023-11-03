@@ -7,7 +7,7 @@ import com.example.mhike.models.Observation;
 import java.util.List;
 
 public final class QueryContract {
-    private QueryContract() {} // Make it non-instantiable
+    private QueryContract() {}
 
     public interface HikeRepository {
         long insertHike(Hike hike);

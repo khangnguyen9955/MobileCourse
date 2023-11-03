@@ -233,7 +233,7 @@ public class Feed extends AppCompatActivity {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                isPopupShowing = false; // Reset the flag when the popup is dismissed
+                isPopupShowing = false;
             }
         });
     }
