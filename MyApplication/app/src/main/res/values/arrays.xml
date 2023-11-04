@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="image_resources">
+        <item>image_profile_2</item>
+        <item>image_profile_3</item>
+        <item>image_profile_4</item>
+        <item>image_profile_5</item>
+    </string-array>
+</resources>
