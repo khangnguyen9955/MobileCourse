@@ -46,6 +46,8 @@ public final class TableContract {
         public static final String COLUMN_COMMENTS = "comments";
         public static final String COLUMN_CREATED_AT = "created_at";
         public static final String COLUMN_UPDATED_AT = "updated_at";
+        public static final String COLUMN_IMAGE_BLOB = "image_blob";
+
 
         public static final String CREATE_OBSERVATIONS_TABLE =
                 "CREATE TABLE " + OBSERVATIONS_TABLE_NAME + " (" +
@@ -54,6 +56,7 @@ public final class TableContract {
                         ObservationEntry.COLUMN_NAME + " TEXT NOT NULL," +
                         ObservationEntry.COLUMN_DATE + " TEXT NOT NULL," +
                         ObservationEntry.COLUMN_COMMENTS + " TEXT," +
+                        ObservationEntry.COLUMN_IMAGE_BLOB + " BLOB, " +
                         ObservationEntry.COLUMN_CREATED_AT + " TEXT NOT NULL," +
                         ObservationEntry.COLUMN_UPDATED_AT + " TEXT NOT NULL" +
                         ");";
