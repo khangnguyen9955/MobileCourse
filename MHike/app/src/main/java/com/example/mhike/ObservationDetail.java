@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.mhike.database.ObservationRepository;
 import com.example.mhike.models.Hike;
 import com.example.mhike.models.Observation;
@@ -28,7 +30,7 @@ public class ObservationDetail extends AppCompatActivity {
         private TextView observationNameTextView;
         private TextView observationDateTextView;
         private TextView observationCommentsTextView;
-
+    private ImageView observationImageView;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class ObservationDetail extends AppCompatActivity {
             observationNameTextView = findViewById(R.id.textViewObservationName);
             observationDateTextView = findViewById(R.id.textViewObservationDate);
             observationCommentsTextView = findViewById(R.id.textViewObservationComments);
-
+            observationImageView = findViewById(R.id.imageViewObservation);
             loadObservationDetails(observationId);
         }
 
@@ -57,6 +59,14 @@ public class ObservationDetail extends AppCompatActivity {
                 String formattedDate = dateFormat.format(observation.getDate());
                 observationDateTextView.setText(formattedDate);
                 observationCommentsTextView.setText(observation.getComments().isEmpty() ? "No comments": observation.getComments());
+                byte[] imageBlob = observation.getImageBlob();
+                if (imageBlob != null) {
+                    Glide.with(this)
+                            .load(imageBlob)
+                            .into(observationImageView);
+                } else {
+                    observationImageView.setImageResource(R.drawable.default_image_background);
+                }
             }
             else{
                 Toast.makeText(this, "Observation not found", Toast.LENGTH_SHORT).show();

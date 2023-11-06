@@ -11,12 +11,15 @@ public class Observation {
     private Date createdAt;
     private Date updatedAt;
 
-    public Observation(int id, int hikeId, String name, Date date, String comments) {
+    private byte[] imageBlob;
+
+    public Observation(int id, int hikeId, String name, Date date, String comments, byte[] imageBlob) {
         this.id = id;
         this.hikeId = hikeId;
         this.name = name;
         this.date = date;
         this.comments = comments;
+        this.imageBlob= imageBlob;
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
@@ -76,5 +79,13 @@ public class Observation {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public byte[] getImageBlob() {
+        return imageBlob;
+    }
+
+    public void setImageBlob(byte[] imageBlob) {
+        this.imageBlob = imageBlob;
     }
 }
