@@ -1,14 +1,17 @@
 package com.example.mhike;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -16,6 +19,9 @@ import android.widget.Toolbar;
 import com.example.mhike.database.ObservationRepository;
 import com.example.mhike.models.Observation;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,8 +34,12 @@ public class CreateObservation extends AppCompatActivity {
     private EditText observationCommentsEditText;
     private Button buttonChooseObservationDate;
     private Button saveObservationButton;
+    private Button buttonChooseObservationImage;
     private ObservationRepository observationRepository;
-    private int hikeId;
+    private int hikeId;private byte[] imageBlob;
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,7 @@ public class CreateObservation extends AppCompatActivity {
         observationCommentsEditText = findViewById(R.id.editTextAdditionalComments);
         saveObservationButton = findViewById(R.id.buttonSaveObservation);
         buttonChooseObservationDate = findViewById(R.id.buttonChooseObservationDate);
+        buttonChooseObservationImage = findViewById(R.id.buttonChooseObservationImage);
 
         hikeId = getIntent().getIntExtra("hikeId", -1);
 
@@ -55,7 +66,16 @@ public class CreateObservation extends AppCompatActivity {
                 int month = datePickerObservation.getMonth();
                 int year = datePickerObservation.getYear();
                 String comment = observationCommentsEditText.getText().toString().trim();
+
                 saveObservation(name, day, month, year, comment);
+            }
+        });
+        buttonChooseObservationImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         });
 
@@ -94,7 +114,7 @@ public class CreateObservation extends AppCompatActivity {
             observation.setName(name);
             observation.setComments(comment);
             observation.setDate(date);
-
+            observation.setImageBlob(imageBlob);
             observationRepository.insertObservation(observation);
             Toast.makeText(this, "Saved new observation!", Toast.LENGTH_SHORT).show();
             Intent hikeDetailIntent = new Intent(this, HikeDetail.class);
@@ -128,6 +148,38 @@ public class CreateObservation extends AppCompatActivity {
         );
 
         datePickerDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                imageBlob = getBytes(inputStream);
+                ImageView imageViewObservation = findViewById(R.id.imageViewUploaded);
+                imageViewObservation.setVisibility(View.VISIBLE);
+                imageViewObservation.setImageURI(imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+
+        return byteBuffer.toByteArray();
     }
 
     private String formatDate(int year, int month, int day) {
