@@ -1,20 +1,29 @@
 package com.example.mhike;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mhike.database.ObservationRepository;
 import com.example.mhike.models.Observation;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +31,7 @@ import java.util.Locale;
 
 public class EditObservation extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
     private EditText observationNameEditText;
     private TextView observationDateEditText;
     private EditText observationCommentsEditText;
@@ -32,6 +42,10 @@ public class EditObservation extends AppCompatActivity {
     private Button buttonChooseDate;
     private Button buttonSaveObservation;
     private Button buttonCancelObservation;
+    private ImageView observationImageView;
+    private Button buttonChooseImage;
+    private byte[] imageBlob;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +61,9 @@ public class EditObservation extends AppCompatActivity {
         buttonChooseDate = findViewById(R.id.buttonChooseObservationDate);
         buttonSaveObservation = findViewById(R.id.buttonSaveObservation);
         buttonCancelObservation = findViewById(R.id.buttonCancel);
+        buttonChooseImage = findViewById(R.id.buttonChooseObservationImage);
+        observationImageView = findViewById(R.id.imageViewUploaded);
+
         observationId = getIntent().getIntExtra("observationId", -1);
 
         if (observationId != -1) {
@@ -58,6 +75,14 @@ public class EditObservation extends AppCompatActivity {
                 observationDateEditText.setText(formattedDate);
                 observationNameEditText.setText(observationToEdit.getName());
                 observationCommentsEditText.setText(observationToEdit.getComments());
+               imageBlob = observationToEdit.getImageBlob();
+
+                if(imageBlob != null ){
+                    Log.i("EditHike", "Image Blob: " + imageBlob.length);
+                    Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
+                    observationImageView.setVisibility(View.VISIBLE);
+                    observationImageView.setImageBitmap(imageBitmap);
+                }
             }
             else{
                 Toast.makeText(this, "Observation not found", Toast.LENGTH_SHORT).show();
@@ -65,7 +90,14 @@ public class EditObservation extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Observation not found", Toast.LENGTH_SHORT).show();
         }
-
+        buttonChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +167,34 @@ public class EditObservation extends AppCompatActivity {
             startActivity(observationDetailIntent);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                imageBlob = getBytes(inputStream);
+                observationImageView.setImageURI(imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+
+        return byteBuffer.toByteArray();
+    }
     private boolean validateInput(String name) {
         if (name.isEmpty()) {
             Toast.makeText(this, "Please enter the name of the observation", Toast.LENGTH_SHORT).show();
@@ -142,4 +202,5 @@ public class EditObservation extends AppCompatActivity {
         }
         return true;
     }
+
 }
