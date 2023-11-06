@@ -36,6 +36,7 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
         values.put(TableContract.ObservationEntry.COLUMN_NAME, observation.getName());
         values.put(TableContract.ObservationEntry.COLUMN_DATE, formatDate(observation.getDate()));
         values.put(TableContract.ObservationEntry.COLUMN_COMMENTS, observation.getComments());
+        values.put(TableContract.ObservationEntry.COLUMN_IMAGE_BLOB, observation.getImageBlob());
         values.put(TableContract.ObservationEntry.COLUMN_CREATED_AT,new Date().toString());
         values.put(TableContract.ObservationEntry.COLUMN_UPDATED_AT,new Date().toString());
         Log.i("insertObservation", observation.getName() + " " + observation.getDate() + " " + observation.getComments());
@@ -66,7 +67,8 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
                     TableContract.ObservationEntry.COLUMN_HIKE_ID,
                     TableContract.ObservationEntry.COLUMN_NAME,
                     TableContract.ObservationEntry.COLUMN_DATE,
-                    TableContract.ObservationEntry.COLUMN_COMMENTS
+                    TableContract.ObservationEntry.COLUMN_COMMENTS,
+                    TableContract.ObservationEntry.COLUMN_IMAGE_BLOB
             };
 
             String selection = TableContract.ObservationEntry._ID + " = ?";
@@ -107,7 +109,8 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
                     TableContract.ObservationEntry.COLUMN_HIKE_ID,
                     TableContract.ObservationEntry.COLUMN_NAME,
                     TableContract.ObservationEntry.COLUMN_DATE,
-                    TableContract.ObservationEntry.COLUMN_COMMENTS
+                    TableContract.ObservationEntry.COLUMN_COMMENTS,
+                    TableContract.ObservationEntry.COLUMN_IMAGE_BLOB
             };
             Log.e("getObservationsForHike", String.valueOf(hikeId));
             String selection = TableContract.ObservationEntry.COLUMN_HIKE_ID + " = ?";
@@ -148,6 +151,7 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
         values.put(TableContract.ObservationEntry.COLUMN_NAME, observation.getName());
         values.put(TableContract.ObservationEntry.COLUMN_DATE,formatDate(observation.getDate()));
         values.put(TableContract.ObservationEntry.COLUMN_COMMENTS, observation.getComments());
+        values.put(TableContract.ObservationEntry.COLUMN_IMAGE_BLOB, observation.getImageBlob());
 
         String selection = TableContract.ObservationEntry._ID + " = ?";
         String[] selectionArgs = {String.valueOf(observation.getId())};
@@ -193,7 +197,7 @@ public class ObservationRepository implements QueryContract.ObservationRepositor
         observation.setId(cursor.getInt(cursor.getColumnIndex(TableContract.ObservationEntry._ID)));
         observation.setHikeId(cursor.getInt(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_HIKE_ID)));
         observation.setName(cursor.getString(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_NAME)));
-
+        observation.setImageBlob(cursor.getBlob(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_IMAGE_BLOB)));
         observation.setDate(parseDate(cursor.getString(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_DATE))));
         observation.setComments(cursor.getString(cursor.getColumnIndex(TableContract.ObservationEntry.COLUMN_COMMENTS)));
         return observation;
