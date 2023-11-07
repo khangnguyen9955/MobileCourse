@@ -183,6 +183,7 @@ public class EditObservation extends AppCompatActivity {
             }
         }
     }
+//    Reference: https://stackoverflow.com/questions/2163644/in-java-how-can-i-convert-an-inputstream-into-a-byte-array-byte
     private byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
