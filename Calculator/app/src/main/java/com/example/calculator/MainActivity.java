@@ -11,8 +11,9 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewDisplay;
     String displayData = "";
     String operator = "";
-    double value1 = 0.0, value2 = 0.0;
-    boolean justCalculated;
+    double value1 = 0.0;
+    boolean isNegative = false;
+    boolean justCalculated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,34 +26,19 @@ public class MainActivity extends AppCompatActivity {
     public void onButtonClick(View view) {
         Button button = (Button) view;
         String data = button.getText().toString();
-
-        if(justCalculated) {
-            switch(data){
-                case "/":
-                case "*":
-                case "-":
-                case "+":
-                    justCalculated = false;
-                default:
-                    if((data.matches("\\d+"))) {
-                        displayData = "";
-                        justCalculated = false;
-                    }
-            }
-        }
-
-        switch(data) {
+        switch (data) {
             case "C":
                 displayData = "";
                 operator = "";
                 value1 = 0.0;
-                value2 = 0.0;
                 textViewDisplay.setText("0");
+                isNegative = false;
+                justCalculated = false;
                 break;
             case "=":
-                performOperation();
+                if (!displayData.isEmpty()) performOperation();
                 operator = "";
-                displayData = String.valueOf(value1);
+                isNegative = displayData.startsWith("-");
                 textViewDisplay.setText(displayData);
                 justCalculated = true;
                 break;
@@ -60,21 +46,25 @@ public class MainActivity extends AppCompatActivity {
             case "*":
             case "-":
             case "+":
+                if (!displayData.isEmpty()) performOperation();
                 operator = data;
-                value1 = Double.valueOf(displayData);
                 displayData = "";
                 break;
             default:
-                displayData += data;
+                if (justCalculated) {
+                    displayData = data;
+                    justCalculated = false;
+                } else {
+                    displayData += data;
+                }
                 textViewDisplay.setText(displayData);
                 break;
         }
     }
 
     private void performOperation() {
-        value2 = Double.valueOf(displayData);
-
-        switch(operator) {
+        double value2 = Double.valueOf(displayData);
+        switch (operator) {
             case "/":
                 value1 /= value2;
                 break;
@@ -87,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
             case "+":
                 value1 += value2;
                 break;
+            default:
+                value1 = value2;
         }
+        displayData = String.valueOf(value1);
     }
 }
